@@ -13,7 +13,7 @@ public class Node : MonoBehaviour
 
     private void OnEnable()
     {
-        _nodeTypeIcon.enabled = false;
+        _nodeTypeIcon.enabled = true;
     }
 
     public void IsCurrentObjective(bool active)
