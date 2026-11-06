@@ -15,7 +15,8 @@ public class StateScout : State
 
     public override void Enter()
     {
-        
+        _UI.UpdateCollected(1, 3);
+        _UI.ChangeMode(HunterMode.Scout);
     }
 
     public override void Update()

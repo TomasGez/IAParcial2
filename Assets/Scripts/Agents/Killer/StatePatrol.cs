@@ -15,7 +15,7 @@ public class StatePatrol : State
 
     public override void Enter()
     {
-        
+        _UI.ChangeMode(KillerMode.Patrol);
     }
 
     public override void Update()
