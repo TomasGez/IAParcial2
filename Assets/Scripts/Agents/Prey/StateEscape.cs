@@ -20,9 +20,9 @@ public class StateEscape : State
 
     public override void Update()
     {
-        if (_agent.GetTargets() != null && _agent.GetTargets().Count > 0)
+        if (_agent.GetTargets() != null && _agent.GetTargets().Count > 0 && _agent.CurrentTarget != null)
         {
-            _agent.Evade(_agent.GetCurrentTarget());
+            _agent.Evade(_agent.CurrentTarget);
         }
         else
         {

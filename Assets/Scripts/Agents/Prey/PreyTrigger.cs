@@ -13,8 +13,10 @@ public class PreyTrigger : MonoBehaviour
         if ((_targetMask.value & (1 << other.gameObject.layer)) != 0)
         {
             AgentHunter target = other.GetComponentInParent<AgentHunter>();
-                
-            if (target != _agent.GetCurrentTarget())
+            
+            if (target == null) return;
+
+            if (target != _agent.CurrentTarget)
             {
                 _agent?.AddTarget(target);
             }
@@ -32,8 +34,10 @@ public class PreyTrigger : MonoBehaviour
         if ((_targetMask.value & (1 << other.gameObject.layer)) != 0)
         {
             AgentHunter target = other.GetComponentInParent<AgentHunter>();
+
+            if (target == null) return;
                 
-            if (target != _agent.GetCurrentTarget()) _agent.RemoveTarget(target);
+            if (target != _agent.CurrentTarget) _agent.RemoveTarget(target);
 
             _coroutine = StartCoroutine(KeepGoing(target));
         }

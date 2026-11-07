@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AgentNPC : Agent
+public abstract class AgentNPC : Agent
 {
     
 }

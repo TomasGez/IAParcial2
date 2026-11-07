@@ -6,7 +6,8 @@ public abstract class Agent : MonoBehaviour
     protected FSM _stateMachine;
     protected Vector3 _currentVelocity;
     private List<Agent> _targets = new List<Agent>();
-    private Agent _currentTarget;
+
+    public Agent CurrentTarget { get; protected set; }
 
     [Header("Agent Stats")]
     [SerializeField] protected float maxSpeed;
@@ -39,28 +40,23 @@ public abstract class Agent : MonoBehaviour
     {
         _targets.Add(agent);
 
-        if (_targets.Count == 0) _currentTarget = agent;
+        if (_targets.Count == 0) CurrentTarget = agent;
     }
 
     public void RemoveTarget(Agent agent)
     {
         _targets.Remove(agent);
 
-        if (agent == _currentTarget && _targets.Count > 0) _currentTarget = _targets[0];
+        if (agent == CurrentTarget && _targets.Count > 0) CurrentTarget = _targets[0];
 
-        else if (_targets.Count == 0) _currentTarget = null;
+        else if (_targets.Count == 0) CurrentTarget = null;
     }
 
     public void ClearTargets()
     {
         _targets.Clear();
 
-        _currentTarget = null;
-    }
-
-    public Agent GetCurrentTarget()
-    {
-        return _currentTarget;
+        CurrentTarget = null;
     }
 
     protected Vector3 CalculatedDirection(Vector3 targetPosition)

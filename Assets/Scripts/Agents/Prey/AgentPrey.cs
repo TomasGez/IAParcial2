@@ -4,7 +4,7 @@ using UnityEngine;
 public class AgentPrey : AgentBoid
 {
     [SerializeField] private PreyUI _preyUI;
-    private bool isBeingFollowed;
+    [SerializeField] private bool isBeingFollowed;
     private bool wasKilled;
 
     [Header("Flock Stats")]
