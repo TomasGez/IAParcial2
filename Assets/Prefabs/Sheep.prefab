@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 1098199281909273438}
   - component: {fileID: 6461982459833351719}
   m_Layer: 11
-  m_Name: Prey
+  m_Name: Sheep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,9 +230,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595af1353304a574ca6565b3b92f1263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgentPrey
-  maxSpeed: 5
-  maxSteering: 20
-  _preyUI: {fileID: 555991281485256414}
+  _maxSpeed: 5
+  _maxSteering: 20
+  _viewAngle: 90
+  _eyeHeight: 1
+  _keepTargetTime: 2
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 512
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
   _flockData:
     separationRadius: 2
     alignmentRadius: 3
@@ -252,7 +260,7 @@ GameObject:
   - component: {fileID: 4175555962198808296}
   - component: {fileID: 7500230584140487467}
   - component: {fileID: 2667122732530151034}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Field Of View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -315,11 +323,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 127c1c2e24ceab84eb3ce5f7f888e3ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PreyTrigger
-  _agent: {fileID: 6461982459833351719}
-  _targetMask:
-    serializedVersion: 2
-    m_Bits: 512
-  _escapingTime: 2
 --- !u!1 &4310892843981378906
 GameObject:
   m_ObjectHideFlags: 0

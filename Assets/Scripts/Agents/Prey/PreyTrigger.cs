@@ -1,52 +1,37 @@
-using System.Collections;
+using System;
 using UnityEngine;
 
-public class PreyTrigger : MonoBehaviour
+public class PreyTrigger : FieldOfViewSensor
 {
-    [SerializeField] private AgentPrey _agent;
-    [SerializeField] private LayerMask _targetMask = ~0;
-    [SerializeField] private float _escapingTime;
-    Coroutine _coroutine;
+    public event Action<AgentNPC, Enum> OnHunterEnter;
+    public event Action<AgentNPC, Enum> OnHunterExit;
+
+    private void Awake()
+    {
+        _agent = GetComponentInParent<Sheep>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if ((_targetMask.value & (1 << other.gameObject.layer)) != 0)
+        if (IsValidTarget(other.gameObject.layer, _agent.TargetMask))
         {
-            AgentHunter target = other.GetComponentInParent<AgentHunter>();
+            _target = other.GetComponentInParent<Wolf>();
             
-            if (target == null) return;
+            if (_target == null) return;
 
-            if (target != _agent.CurrentTarget)
-            {
-                _agent?.AddTarget(target);
-            }
-            else
-            {
-                if(_coroutine != null) StopCoroutine(_coroutine);
-            }
-
-            _agent.IsBeingFollowed(true);
+            OnHunterEnter?.Invoke(_target, PreyMode.Escape);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if ((_targetMask.value & (1 << other.gameObject.layer)) != 0)
+        if (IsValidTarget(other.gameObject.layer, _agent.TargetMask))
         {
-            AgentHunter target = other.GetComponentInParent<AgentHunter>();
+            _target = other.GetComponentInParent<Wolf>();
 
-            if (target == null) return;
+            if (_target == null) return;
                 
-            if (target != _agent.CurrentTarget) _agent.RemoveTarget(target);
-
-            _coroutine = StartCoroutine(KeepGoing(target));
+            OnHunterExit?.Invoke(_target, PreyMode.Flock);
         }
-    }
-
-    IEnumerator KeepGoing(AgentHunter target)
-    {
-        yield return new WaitForSeconds(_escapingTime);
-
-        _agent.RemoveTarget(target);
     }
 }

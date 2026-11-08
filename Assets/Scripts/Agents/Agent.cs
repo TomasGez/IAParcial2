@@ -1,24 +1,41 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Agent : MonoBehaviour
 {
     protected FSM _stateMachine;
-    protected Vector3 _currentVelocity;
-    private List<Agent> _targets = new List<Agent>();
-
-    public Agent CurrentTarget { get; protected set; }
+    private Coroutine _keepLookingCoroutine;
+    
+    private List<AgentNPC> _targets = new List<AgentNPC>();
+    public AgentNPC CurrentTarget { get; protected set; }
 
     [Header("Agent Stats")]
-    [SerializeField] protected float maxSpeed;
+    protected Vector3 _currentVelocity;
+    [SerializeField] protected float _maxSpeed;
     protected float _currentSpeed;
-    [SerializeField] protected float maxSteering;
+    [SerializeField] protected float _maxSteering;
+
+    [Header("Sensor")]
+    [SerializeField] private float _viewAngle = 90f;
+    [SerializeField] private float _eyeHeight = 1f;
+    [SerializeField] private float _keepTargetTime;
+
+    [Header("Layer")]
+    [SerializeField] private LayerMask _targetMask;
+    [SerializeField] private LayerMask _obstacleMask;
+
+    public float ViewAngle => _viewAngle;
+    public float EyeHeight => _eyeHeight;
+    public LayerMask TargetMask => _targetMask;
+    public LayerMask ObstacleMask => _obstacleMask;
 
     protected virtual void Awake()
     {
         _stateMachine = new FSM();
 
-        _currentSpeed = maxSpeed;
+        _currentSpeed = _maxSpeed;
     }
 
     protected virtual void Movement()
@@ -31,58 +48,70 @@ public abstract class Agent : MonoBehaviour
         }
     }
 
-    public List<Agent> GetTargets()
+    protected void TargetEntered(AgentNPC target, Enum key)
     {
-        return _targets;
+        if (target == CurrentTarget && _keepLookingCoroutine != null)
+        {
+            StopCoroutine(_keepLookingCoroutine);
+            _keepLookingCoroutine = null;
+        }
+
+        if (!_targets.Contains(target)) _targets.Add(target);
+
+        if (CurrentTarget == null)
+        {
+            CurrentTarget = _targets[0];
+
+            if (CurrentTarget != null) _stateMachine.ChangeState(key);
+        }
     }
 
-    public void AddTarget(Agent agent)
+    protected void TargetExited(AgentNPC target, Enum key)
     {
-        _targets.Add(agent);
-
-        if (_targets.Count == 0) CurrentTarget = agent;
+        if (target != CurrentTarget)
+        {
+            if (_targets.Contains(target)) _targets.Remove(target);
+        }
+        else
+        {
+            if (_keepLookingCoroutine == null)
+                _keepLookingCoroutine = StartCoroutine(KeepLooking(target, key));
+        }
     }
 
-    public void RemoveTarget(Agent agent)
+    public void ClearTargets(Enum key)
     {
-        _targets.Remove(agent);
+        if (_keepLookingCoroutine != null)
+        {
+            StopCoroutine(_keepLookingCoroutine);
+            _keepLookingCoroutine = null;
+        }
 
-        if (agent == CurrentTarget && _targets.Count > 0) CurrentTarget = _targets[0];
-
-        else if (_targets.Count == 0) CurrentTarget = null;
-    }
-
-    public void ClearTargets()
-    {
         _targets.Clear();
 
         CurrentTarget = null;
+
+        _stateMachine.ChangeState(key);
     }
 
-    protected Vector3 CalculatedDirection(Vector3 targetPosition)
+    protected IEnumerator KeepLooking(AgentNPC target, Enum key)
     {
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        direction *= _currentSpeed;
+        yield return new WaitForSeconds(_keepTargetTime);
 
-        return direction;
-    }
+        if (_targets.Contains(target)) _targets.Remove(target);
 
-    protected Vector3 CalculatedSteering(Vector3 desiredDirection)
-    {
-        Vector3 steering =  desiredDirection - _currentVelocity;
+        if (target == CurrentTarget)
+        {
+            if (_targets.Count > 0)
+            {
+                CurrentTarget = _targets[0];
+            }
+            else
+            {
+                CurrentTarget = null;
 
-        steering = Vector3.ClampMagnitude(steering, maxSteering * Time.deltaTime);
-
-        return steering;
-    }
-
-    protected Vector3 CalculatedFuture(Agent target)
-    {
-        Vector3 direction = target.transform.position - transform.position;
-        float distance = direction.magnitude;
-
-        float prediction = distance / (maxSpeed + target._currentVelocity.magnitude);
-        Vector3 futurePosition = target.transform.position + target._currentVelocity * prediction;
-        return futurePosition;
+                _stateMachine.ChangeState(key);
+            }
+        }
     }
 }

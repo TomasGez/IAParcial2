@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7276069362615124853}
   - component: {fileID: 7785968702841445491}
   m_Layer: 9
-  m_Name: Hunter
+  m_Name: Wolf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,8 +99,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b90215f95828e2b43a0eb5394f2d826d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgentHunter
-  maxSpeed: 5
-  maxSteering: 20
+  _maxSpeed: 5
+  _maxSteering: 20
+  _viewAngle: 90
+  _eyeHeight: 1
+  _keepTargetTime: 2
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
   _hunterUI: {fileID: 5026514126690402182}
 --- !u!1 &506846625085651839
 GameObject:
@@ -225,7 +234,7 @@ GameObject:
   - component: {fileID: 1970095719125174403}
   - component: {fileID: 4175555962198808296}
   - component: {fileID: 7500230584140487467}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Field Of View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,7 +279,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

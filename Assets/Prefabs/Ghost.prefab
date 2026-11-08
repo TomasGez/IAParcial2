@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6576076888100607852}
   - component: {fileID: 6960654468043530892}
   m_Layer: 10
-  m_Name: Killer
+  m_Name: Ghost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,8 +99,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f1b33044b57b6f45bd1b491adf27a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgentKiller
-  maxSpeed: 5
-  maxSteering: 20
+  _maxSpeed: 4.5
+  _maxSteering: 20
+  _viewAngle: 90
+  _eyeHeight: 1
+  _keepTargetTime: 0
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 512
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
   _killerUI: {fileID: 7790965994943836046}
 --- !u!1 &1400532980339235073
 GameObject:
@@ -289,7 +298,7 @@ GameObject:
   - component: {fileID: 373958410028966301}
   - component: {fileID: 2509743560695944535}
   m_Layer: 0
-  m_Name: CharacterPhantom
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

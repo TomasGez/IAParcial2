@@ -11,10 +11,10 @@ public class ZoneTrigger : MonoBehaviour
     {
         Vector3 localPos = transform.InverseTransformPoint(position);
 
-        if (localPos.x > _collider.size.x / 2) localPos.x -= _collider.size.x + 0.5f;
-        if (localPos.x < -_collider.size.x / 2) localPos.x += _collider.size.x + 0.5f;
-        if (localPos.z > _collider.size.z / 2) localPos.z -= _collider.size.z + 0.5f;
-        if (localPos.z < -_collider.size.z / 2) localPos.z += _collider.size.z + 0.5f;
+        if (localPos.x > _collider.size.x / 2) localPos.x -= _collider.size.x;
+        if (localPos.x < -_collider.size.x / 2) localPos.x += _collider.size.x;
+        if (localPos.z > _collider.size.z / 2) localPos.z -= _collider.size.z;
+        if (localPos.z < -_collider.size.z / 2) localPos.z += _collider.size.z;
 
         return transform.TransformPoint(localPos);
     }
@@ -25,10 +25,10 @@ public class ZoneTrigger : MonoBehaviour
         {
             if (_zoneType == Zone.Hunting)
             {
-                AgentPrey target = other.GetComponentInParent<AgentPrey>();
-                target.ClearTargets();
+                Sheep target = other.GetComponentInParent<Sheep>();
+                target.ClearTargets(PreyMode.Flock);
 
-                other.gameObject.transform.position = Wraparound(other.gameObject.transform.position);
+                target.transform.position = Wraparound(target.transform.position);
             }
         }
     }

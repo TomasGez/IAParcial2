@@ -1,68 +1,94 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AgentPrey : AgentBoid
-{
-    [SerializeField] private PreyUI _preyUI;
-    [SerializeField] private bool isBeingFollowed;
-    private bool wasKilled;
+public abstract class AgentPrey : AgentNPC
+{  
+    protected static List<Sheep> _allPreys = new List<Sheep>();
 
-    [Header("Flock Stats")]
-    [SerializeField] private FlockData _flockData;
-
-    [Header("Escape Stats")]
-    [SerializeField] private EscapeData _escapeData;
-
-    [Header("Dead Stats")]
-    [SerializeField] private DeadData _deadData;
-
-    protected override void Awake()
+    public void RandomDirection()
     {
-        base.Awake();
-
-        StateFlock stateFlock = new StateFlock(this, _preyUI, _flockData, _stateMachine);
-        StateEscape stateEscape = new StateEscape(this, _preyUI, _escapeData, _stateMachine);
-        StateDead stateDead = new StateDead(this, _preyUI, _deadData, _stateMachine);
-
-        _stateMachine.RegisterState(PreyMode.Flock, stateFlock);
-        _stateMachine.RegisterState(PreyMode.Escape, stateEscape);
-        _stateMachine.RegisterState(PreyMode.Dead, stateDead);
-
-        _stateMachine.StartFirstState(PreyMode.Flock);
-
-        _allPreys.Add(this);
+        Vector3 direction = new Vector3(Random.Range(-1f, 1f), 0f,Random.Range(-1f, 1f));
+        _currentVelocity = direction.normalized * _currentSpeed;
     }
 
-    private void Update()
+    private Vector3 CalculatedSeparation(float radius)
     {
-        _stateMachine.Update();
+        Vector3 desiredVector = default;
+        int count = 0;
 
-        Movement();
-    }
-
-    public void IsBeingFollowed(bool isActive)
-    {
-        isBeingFollowed = isActive;
-
-        if (isBeingFollowed && !wasKilled)
+        foreach(var item in _allPreys)
         {
-            _stateMachine.ChangeState(PreyMode.Escape);
+            if(item == this) continue;
+
+            if(Vector3.Distance(item.transform.position, transform.position) <= radius)
+            {
+                desiredVector += item.transform.position - transform.position;
+                count++;
+            }
         }
+
+        if(count == 0) return Vector3.zero;
+
+        desiredVector /= count;
+        return CalculatedSteering(-desiredVector.normalized * _maxSpeed);
     }
 
-    public void WasKilled(bool isActive)
+    private Vector3 CalculatedAlignment(float radius)
     {
-        wasKilled = isActive;
+        Vector3 desiredVector = default;
+        int count = 0;
 
-        if (wasKilled)
+        foreach(var item in _allPreys)
         {
-            _allPreys.Remove(this);
-            _stateMachine.ChangeState(PreyMode.Dead);
+            if(item == this) continue;
+
+            if(Vector3.Distance(item.transform.position, transform.position) <= radius)
+            {
+                desiredVector += item._currentVelocity;
+                count++;
+            }
         }
+
+        if(count == 0) return Vector3.zero;
+
+        desiredVector /= count;
+        return CalculatedSteering(desiredVector.normalized * _maxSpeed);
     }
 
-    public void TerminatePrey()
+    private Vector3 CalculatedCohesion(float radius)
     {
-        Destroy(gameObject);
+        Vector3 desiredVector = default;
+        int count = 0;
+
+        foreach(var item in _allPreys)
+        {
+            if(item == this) continue;
+
+            if(Vector3.Distance(item.transform.position, transform.position) <= radius)
+            {
+                desiredVector += item.transform.position;
+                count++;
+            }
+        }
+
+        if(count == 0) return Vector3.zero;
+
+        desiredVector /= count;
+        Vector3 desiredVelocity = CalculatedDirection(desiredVector);
+        return CalculatedSteering(desiredVelocity.normalized * _maxSpeed);
+    }
+
+    public void Flocking(float sepRadius, float sepWeight, float aliRadius, float aliWeight, float cohRadius, float cohWeight)
+    {
+        _currentVelocity += CalculatedSeparation(sepRadius) * sepWeight + 
+                            CalculatedAlignment(aliRadius) * aliWeight + 
+                            CalculatedCohesion(cohRadius) * cohWeight;
+    }
+
+    public void Evade(AgentNPC target)
+    {
+        Vector3 desiredVelocity = CalculatedDirection(CalculatedFuture(target));
+
+        _currentVelocity += CalculatedSteering(-desiredVelocity);
     }
 }
