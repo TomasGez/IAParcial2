@@ -2,29 +2,22 @@ using UnityEngine;
 
 public class StateDead : State
 {
-    public StateDead(AgentPrey agent, PreyUI UI, DeadData data, FSM stateMachine) : base(stateMachine)
+    public StateDead(PreyUI UI, Animator Anim, FSM stateMachine) : base(stateMachine)
     {
-        _agent = agent;
         _UI = UI;
-        _data = data;
+        _anim = Anim;
     }
 
-    private AgentPrey _agent;
     private PreyUI _UI;
-    private DeadData _data;
+    private Animator _anim;
 
     public override void Enter()
     {
         _UI.ChangeMode(PreyMode.Dead);
+        _anim.SetBool("IsDead", true);
     }
 
     public override void Update() { }
 
     public override void Exit() { }
-}
-
-[System.Serializable]
-public class DeadData
-{
-    
 }

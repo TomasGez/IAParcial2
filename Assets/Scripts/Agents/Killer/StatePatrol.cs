@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StatePatrol : State
@@ -29,5 +30,5 @@ public class StatePatrol : State
 [System.Serializable]
 public class PatrolData
 {
-    
+    public List<Node> patrolNodes;
 }

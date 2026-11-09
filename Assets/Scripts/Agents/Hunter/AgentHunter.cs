@@ -1,15 +1,8 @@
 using UnityEngine;
 
-public abstract class AgentHunter : AgentNPC
+public abstract class AgentHunter : AgentPathFinding
 {
-    public void Seek(AgentNPC target)
-    {
-        Vector3 desiredVelocity = CalculatedDirection(target.transform.position);
-
-        _currentVelocity += CalculatedSteering(desiredVelocity);
-    }
-
-    public void Pursuit(AgentNPC target)
+    public void Pursuit(Agent target)
     {
         Vector3 desiredVelocity = CalculatedDirection(CalculatedFuture(target));
 

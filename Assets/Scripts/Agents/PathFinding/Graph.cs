@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +9,11 @@ public class Graph : MonoBehaviour
     [SerializeField] private LayerMask _obstacleMask;
     
     public IReadOnlyList<Node> AllNodes => _allNodes;
+
+    public Node GetClosestNode()
+    {
+        
+    }
 
     public Node NewPhantomNode(Transform agentTransform)
     {
@@ -29,6 +33,4 @@ public class Graph : MonoBehaviour
                 newNode.Neighbors.Add(node);
         }
     }
-
-
 }

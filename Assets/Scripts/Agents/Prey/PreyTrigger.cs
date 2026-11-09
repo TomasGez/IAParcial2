@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class PreyTrigger : FieldOfViewSensor
 {
-    public event Action<AgentNPC, Enum> OnHunterEnter;
-    public event Action<AgentNPC, Enum> OnHunterExit;
+    public event Action<Agent> OnHunterEnter;
+    public event Action<Agent> OnHunterExit;
 
     private void Awake()
     {
@@ -15,11 +15,11 @@ public class PreyTrigger : FieldOfViewSensor
     {
         if (IsValidTarget(other.gameObject.layer, _agent.TargetMask))
         {
-            _target = other.GetComponentInParent<Wolf>();
+            Wolf target = other.GetComponentInParent<Wolf>();
             
-            if (_target == null) return;
+            if (target == null) return;
 
-            OnHunterEnter?.Invoke(_target, PreyMode.Escape);
+            OnHunterEnter?.Invoke(target);
         }
     }
 
@@ -27,11 +27,11 @@ public class PreyTrigger : FieldOfViewSensor
     {
         if (IsValidTarget(other.gameObject.layer, _agent.TargetMask))
         {
-            _target = other.GetComponentInParent<Wolf>();
+            Wolf target = other.GetComponentInParent<Wolf>();
 
-            if (_target == null) return;
+            if (target == null) return;
                 
-            OnHunterExit?.Invoke(_target, PreyMode.Flock);
+            OnHunterExit?.Invoke(target);
         }
     }
 }

@@ -26,7 +26,7 @@ public class ZoneTrigger : MonoBehaviour
             if (_zoneType == Zone.Hunting)
             {
                 Sheep target = other.GetComponentInParent<Sheep>();
-                target.ClearTargets(PreyMode.Flock);
+                target.ClearTargets();
 
                 target.transform.position = Wraparound(target.transform.position);
             }

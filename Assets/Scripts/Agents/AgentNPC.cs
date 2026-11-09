@@ -1,31 +1,44 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class AgentNPC : Agent
+public class AgentPathFinding : Agent
 {
-    protected Vector3 CalculatedDirection(Vector3 targetPosition)
-    {
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        direction *= _currentSpeed;
+    [Header("Path Finding")]
+    [SerializeField] private Graph _grid;
+    public Node NextNode { get; private set; }
+    private Coroutine _walkingRoutine;
 
-        return direction;
+
+
+    private void SearchPath(Node startNode, Node endNode)
+    {
+        List<Node> path = PathFinder<Node>.AStarSearch(startNode, endNode, node => node.Neighbors,
+                                                       node => node.DangerNodeCost(),
+                                                       node => node.transform.position, true);
+        
+        if (_walkingRoutine != null) StopCoroutine(_walkingRoutine);
+        _walkingRoutine = StartCoroutine(WalkPath(path));
     }
 
-    protected Vector3 CalculatedSteering(Vector3 desiredDirection)
+    private void Seek(Node target)
     {
-        Vector3 steering =  desiredDirection - _currentVelocity;
+        Vector3 desiredVelocity = CalculatedDirection(target.transform.position);
 
-        steering = Vector3.ClampMagnitude(steering, _maxSteering * Time.deltaTime);
-
-        return steering;
+        _currentVelocity += CalculatedSteering(desiredVelocity);
     }
 
-    protected Vector3 CalculatedFuture(AgentNPC target)
+    private IEnumerator WalkPath(List<Node> path)
     {
-        Vector3 direction = target.transform.position - transform.position;
-        float distance = direction.magnitude;
+        foreach (Node node in path)
+        {
+            NextNode = node;
 
-        float prediction = distance / (_maxSpeed + target._currentVelocity.magnitude);
-        Vector3 futurePosition = target.transform.position + target._currentVelocity * prediction;
-        return futurePosition;
+            while ((transform.position - node.transform.position).sqrMagnitude > 0.001f)
+            {
+                Seek(node);
+                yield return null;
+            }
+        }
     }
 }

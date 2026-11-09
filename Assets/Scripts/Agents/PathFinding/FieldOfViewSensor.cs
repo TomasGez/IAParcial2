@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class FieldOfViewSensor : MonoBehaviour
 {
-    protected AgentNPC _agent;
-    protected AgentNPC _target;
+    protected Agent _agent;
+    protected Agent _target;
     protected bool _canSeeTarget;
     public bool CanSeeTarget => _canSeeTarget;
 

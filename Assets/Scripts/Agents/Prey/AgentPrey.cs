@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AgentPrey : AgentNPC
+public abstract class AgentPrey : Agent
 {  
     protected static List<Sheep> _allPreys = new List<Sheep>();
 
@@ -85,7 +85,7 @@ public abstract class AgentPrey : AgentNPC
                             CalculatedCohesion(cohRadius) * cohWeight;
     }
 
-    public void Evade(AgentNPC target)
+    public void Evade(Agent target)
     {
         Vector3 desiredVelocity = CalculatedDirection(CalculatedFuture(target));
 

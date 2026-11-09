@@ -4,13 +4,12 @@ public class Sheep : AgentPrey
 {
     private PreyTrigger _preyTrigger;
     private PreyUI _preyUI;
+    private Animator _preyAnim;
+
     public bool IsDead { get; private set; }
 
     [Header("Flock Stats")]
     [SerializeField] private FlockData _flockData;
-
-    [Header("Dead Stats")]
-    [SerializeField] private DeadData _deadData;
 
     protected override void Awake()
     {
@@ -18,10 +17,11 @@ public class Sheep : AgentPrey
 
         _preyTrigger = GetComponentInChildren<PreyTrigger>();
         _preyUI = GetComponentInChildren<PreyUI>();
+        _preyAnim = GetComponentInChildren<Animator>();
 
         StateFlock stateFlock = new StateFlock(this, _preyUI, _flockData, _stateMachine);
         StateEscape stateEscape = new StateEscape(this, _preyUI, _stateMachine);
-        StateDead stateDead = new StateDead(this, _preyUI, _deadData, _stateMachine);
+        StateDead stateDead = new StateDead(_preyUI, _preyAnim, _stateMachine);
 
         _stateMachine.RegisterState(PreyMode.Flock, stateFlock);
         _stateMachine.RegisterState(PreyMode.Escape, stateEscape);
@@ -50,9 +50,18 @@ public class Sheep : AgentPrey
 
     private void Update()
     {
+        if (!IsDead)
+        {
+            if (CurrentTarget != null) _stateMachine.ChangeState(PreyMode.Escape);
+
+            else _stateMachine.ChangeState(PreyMode.Flock);
+        }
+
         _stateMachine.Update();
 
         Movement();
+
+        if (Input.GetKeyDown(KeyCode.Space)) WasKilled(true);
     }
 
     public void WasKilled(bool isActive)
@@ -63,11 +72,13 @@ public class Sheep : AgentPrey
         {
             _allPreys.Remove(this);
             _stateMachine.ChangeState(PreyMode.Dead);
+            _currentVelocity = Vector3.zero;
         }
     }
 
     public void TerminatePrey()
     {
+        _allPreys.Remove(this);
         Destroy(gameObject);
     }
 }

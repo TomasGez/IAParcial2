@@ -6,10 +6,10 @@ using UnityEngine;
 public abstract class Agent : MonoBehaviour
 {
     protected FSM _stateMachine;
-    private Coroutine _keepLookingCoroutine;
+    private Coroutine _keepLookingRoutine;
     
-    private List<AgentNPC> _targets = new List<AgentNPC>();
-    public AgentNPC CurrentTarget { get; protected set; }
+    private List<Agent> _targets = new List<Agent>();
+    public Agent CurrentTarget { get; protected set; }
 
     [Header("Agent Stats")]
     protected Vector3 _currentVelocity;
@@ -48,53 +48,52 @@ public abstract class Agent : MonoBehaviour
         }
     }
 
-    protected void TargetEntered(AgentNPC target, Enum key)
+    protected void TargetEntered(Agent target)
     {
-        if (target == CurrentTarget && _keepLookingCoroutine != null)
+        if (target == CurrentTarget && _keepLookingRoutine != null)
         {
-            StopCoroutine(_keepLookingCoroutine);
-            _keepLookingCoroutine = null;
+            StopCoroutine(_keepLookingRoutine);
+            _keepLookingRoutine = null;
         }
 
         if (!_targets.Contains(target)) _targets.Add(target);
 
-        if (CurrentTarget == null)
-        {
-            CurrentTarget = _targets[0];
-
-            if (CurrentTarget != null) _stateMachine.ChangeState(key);
-        }
+        if (CurrentTarget == null) CurrentTarget = _targets[0];
     }
 
-    protected void TargetExited(AgentNPC target, Enum key)
+    protected void TargetExited(Agent target)
     {
         if (target != CurrentTarget)
         {
             if (_targets.Contains(target)) _targets.Remove(target);
         }
+        else if (_keepTargetTime > 0)
+        {
+            if (_keepLookingRoutine == null)
+                _keepLookingRoutine = StartCoroutine(KeepLooking(target));
+        }
         else
         {
-            if (_keepLookingCoroutine == null)
-                _keepLookingCoroutine = StartCoroutine(KeepLooking(target, key));
+            if (_targets.Count > 0) CurrentTarget = _targets[0];
+
+            else CurrentTarget = null;
         }
     }
 
-    public void ClearTargets(Enum key)
+    public void ClearTargets()
     {
-        if (_keepLookingCoroutine != null)
+        if (_keepLookingRoutine != null)
         {
-            StopCoroutine(_keepLookingCoroutine);
-            _keepLookingCoroutine = null;
+            StopCoroutine(_keepLookingRoutine);
+            _keepLookingRoutine = null;
         }
 
         _targets.Clear();
 
         CurrentTarget = null;
-
-        _stateMachine.ChangeState(key);
     }
 
-    protected IEnumerator KeepLooking(AgentNPC target, Enum key)
+    protected IEnumerator KeepLooking(Agent target)
     {
         yield return new WaitForSeconds(_keepTargetTime);
 
@@ -109,9 +108,34 @@ public abstract class Agent : MonoBehaviour
             else
             {
                 CurrentTarget = null;
-
-                _stateMachine.ChangeState(key);
             }
         }
+    }
+
+    protected Vector3 CalculatedDirection(Vector3 targetPosition)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        direction *= _currentSpeed;
+
+        return direction;
+    }
+
+    protected Vector3 CalculatedSteering(Vector3 desiredDirection)
+    {
+        Vector3 steering =  desiredDirection - _currentVelocity;
+
+        steering = Vector3.ClampMagnitude(steering, _maxSteering * Time.deltaTime);
+
+        return steering;
+    }
+
+    protected Vector3 CalculatedFuture(Agent target)
+    {
+        Vector3 direction = target.transform.position - transform.position;
+        float distance = direction.magnitude;
+
+        float prediction = distance / (_maxSpeed + target._currentVelocity.magnitude);
+        Vector3 futurePosition = target.transform.position + target._currentVelocity * prediction;
+        return futurePosition;
     }
 }

@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathFinder<T>
+public static class PathFinder<T>
 {
-    public List<T> AStarSearch(T startingNode, T goalNode, Func<T, List<T>> GetNeighbors, Func<T, int> GetDangerNodeCost, Func<T, Vector3> GetPosition, bool precise)
+    public static List<T> AStarSearch(T startingNode, T goalNode, Func<T, List<T>> GetNeighbors, Func<T, int> GetDangerNodeCost, Func<T, Vector3> GetPosition, bool precise)
     {
         PriorityQueue<T> frontier = new();
         frontier.Enqueue(startingNode, 0);
@@ -41,7 +41,7 @@ public class PathFinder<T>
         return new();
     }
 
-    private List<T> ReconstructPath(Dictionary<T, T> cameFrom, T current)
+    private static List<T> ReconstructPath(Dictionary<T, T> cameFrom, T current)
     {
         List<T> path = new();
 
@@ -56,7 +56,7 @@ public class PathFinder<T>
         return path;
     }
 
-    private float GetHeuristic(Vector3 a, Vector3 b, bool precise)
+    private static float GetHeuristic(Vector3 a, Vector3 b, bool precise)
     {
         float dx = Mathf.Abs(a.x - b.x);
         float dz = Mathf.Abs(a.z - b.z);
