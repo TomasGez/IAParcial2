@@ -1,11 +1,10 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Sheep : AgentPrey
 {
     private PreyTrigger _preyTrigger;
     private PreyUI _preyUI;
-    private bool wasKilled;
+    public bool IsDead { get; private set; }
 
     [Header("Flock Stats")]
     [SerializeField] private FlockData _flockData;
@@ -41,6 +40,14 @@ public class Sheep : AgentPrey
         _preyTrigger.OnHunterExit += TargetExited;
     }
 
+    private void OnDisable()
+    {
+        if (_preyTrigger == null) return;
+
+        _preyTrigger.OnHunterEnter -= TargetEntered;
+        _preyTrigger.OnHunterExit -= TargetExited;
+    }
+
     private void Update()
     {
         _stateMachine.Update();
@@ -50,9 +57,9 @@ public class Sheep : AgentPrey
 
     public void WasKilled(bool isActive)
     {
-        wasKilled = isActive;
+        IsDead = isActive;
 
-        if (wasKilled)
+        if (IsDead)
         {
             _allPreys.Remove(this);
             _stateMachine.ChangeState(PreyMode.Dead);
