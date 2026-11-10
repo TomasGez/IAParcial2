@@ -14,6 +14,8 @@ public class StateScout : State
     public override void Enter()
     {
         _UI.ChangeMode(HunterMode.Scout);
+
+        _agent.SeekRandom();
     }
 
     public override void Update()
@@ -21,5 +23,8 @@ public class StateScout : State
         
     }
 
-    public override void Exit() { }
+    public override void Exit()
+    {
+        _agent.StopWalkPath();
+    }
 }

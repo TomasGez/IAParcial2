@@ -46,11 +46,7 @@ public class Ghost : AgentKiller
 
     private void Update()
     {
-        if (CurrentTarget != null && _killerTrigger.CanSeeTarget && _stateMachine._currentState != _stateChase) _stateMachine.ChangeState(KillerMode.Chase);
-
-        else if (CurrentTarget != null && !_killerTrigger.CanSeeTarget && _stateMachine._currentState != _stateTrack) _stateMachine.ChangeState(KillerMode.Track);
-
-        else if (_stateMachine._currentState != _statePatrol) _stateMachine.ChangeState(KillerMode.Patrol);
+        
 
         _stateMachine.Update();
 

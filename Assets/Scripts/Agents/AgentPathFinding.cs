@@ -8,8 +8,25 @@ public class AgentPathFinding : Agent
     [SerializeField] protected Graph _grid;
     [SerializeField] protected float _nodeDetectionDistance = 2f;
     public Node NextNode { get; protected set; }
+    protected Node _currentEndNode;
     protected Node _phantomNode;
     protected Coroutine _walkingRoutine;
+
+
+
+    private IEnumerator WalkPath(List<Node> path)
+    {
+        foreach (Node node in path)
+        {
+            NextNode = node;
+
+            while ((transform.position - node.transform.position).sqrMagnitude > 0.01f)
+            {
+                Seek(node);
+                yield return null;
+            }
+        }
+    }
 
     public void StopWalkPath()
     {
@@ -24,19 +41,11 @@ public class AgentPathFinding : Agent
             Destroy(_phantomNode.gameObject);
             _phantomNode = null;
         }
-    }
 
-    private IEnumerator WalkPath(List<Node> path)
-    {
-        foreach (Node node in path)
+        if (_currentEndNode != null)
         {
-            NextNode = node;
-
-            while ((transform.position - node.transform.position).sqrMagnitude > 0.01f)
-            {
-                Seek(node);
-                yield return null;
-            }
+            _currentEndNode.IsCurrentObjective(false);
+            _currentEndNode = null;
         }
     }
 

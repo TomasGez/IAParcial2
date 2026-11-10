@@ -8,7 +8,7 @@ public class Node : MonoBehaviour
     [SerializeField] private List<Node> _neighbors = new();
     [SerializeField] private Zone _nodeType;
     [SerializeField] private Image _nodeTypeIcon;
-    private bool isDangerNode = false;
+    [SerializeField] private bool isDangerNode = false;
 
     public List<Node> Neighbors => _neighbors;
     public Zone NodeType => _nodeType;
@@ -22,11 +22,6 @@ public class Node : MonoBehaviour
     {
         if (_nodeType != Zone.None)
             _nodeTypeIcon.enabled = active;
-    }
-
-    public void IsDangerNode()
-    {
-        isDangerNode = true;
     }
 
     public int DangerNodeCost()

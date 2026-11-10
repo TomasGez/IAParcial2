@@ -7,6 +7,42 @@ public class AgentKiller : AgentPathFinding
     protected static List<Ghost> _allGhost = new List<Ghost>();
     private int _loopIndex = 0;
 
+    public void SeekNextNode(AgentHunter target)
+    {
+        StopWalkPath();
+
+        Node startNode = _grid.GetAdjacentNode(transform.position, _nodeDetectionDistance);
+
+        if (startNode == null)
+        {
+            _phantomNode = _grid.NewPhantomNode(transform.position);
+            startNode = _phantomNode;
+        }
+
+        Node endNode = target.NextNode;
+
+        List<Node> path = PathFinder<Node>.AStarSearch(startNode, endNode, node => node.Neighbors,
+                                                       node => node.DangerNodeCost(),
+                                                       node => node.transform.position, true);
+
+        if (_walkingRoutine != null) StopCoroutine(_walkingRoutine);
+        _walkingRoutine = StartCoroutine(WalkTargetPath(path));
+    }
+
+    private IEnumerator WalkTargetPath(List<Node> path)
+    {
+        foreach (Node node in path)
+        {
+            NextNode = node;
+
+            while ((transform.position - node.transform.position).sqrMagnitude > 0.01f)
+            {
+                Seek(node);
+                yield return null;
+            }
+        }
+    }
+
     public void SeekLoop(List<Node> loopNodes)
     {
         StopWalkPath();

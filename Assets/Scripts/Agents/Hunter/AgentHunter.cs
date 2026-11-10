@@ -19,6 +19,8 @@ public abstract class AgentHunter : AgentPathFinding
         }
 
         Node endNode = _grid.GetRandomNode(validNodes, startNode);
+        _currentEndNode = endNode;
+        _currentEndNode.IsCurrentObjective(true);
 
         List<Node> path = PathFinder<Node>.AStarSearch(startNode, endNode, node => node.Neighbors,
                                                        node => node.DangerNodeCost(),
