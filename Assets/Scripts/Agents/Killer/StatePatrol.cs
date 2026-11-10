@@ -17,6 +17,9 @@ public class StatePatrol : State
     public override void Enter()
     {
         _UI.ChangeMode(KillerMode.Patrol);
+
+        _agent.SeekLoop(_data.patrolNodes);
+        
     }
 
     public override void Update()
@@ -24,7 +27,10 @@ public class StatePatrol : State
         
     }
 
-    public override void Exit() { }
+    public override void Exit()
+    {
+        _agent.StopWalkPath();
+    }
 }
 
 [System.Serializable]

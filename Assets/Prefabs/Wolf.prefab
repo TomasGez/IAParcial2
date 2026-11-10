@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgentHunter
   _maxSpeed: 5
-  _maxSteering: 20
+  _maxSteering: 25
   _viewAngle: 90
   _eyeHeight: 1
   _keepTargetTime: 2
@@ -110,6 +110,8 @@ MonoBehaviour:
   _obstacleMask:
     serializedVersion: 2
     m_Bits: 128
+  _grid: {fileID: 0}
+  _nodeDetectionDistance: 2
   _hunterUI: {fileID: 5026514126690402182}
 --- !u!1 &506846625085651839
 GameObject:
@@ -234,6 +236,7 @@ GameObject:
   - component: {fileID: 1970095719125174403}
   - component: {fileID: 4175555962198808296}
   - component: {fileID: 7500230584140487467}
+  - component: {fileID: 50009521657012655}
   m_Layer: 12
   m_Name: Field Of View
   m_TagString: Untagged
@@ -285,6 +288,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &50009521657012655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400532980339235073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c39e35b1b4486149839b3c7adde45d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HunterTrigger
 --- !u!1 &2852464406528748343
 GameObject:
   m_ObjectHideFlags: 0

@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AgentPrey
   _maxSpeed: 5
-  _maxSteering: 20
+  _maxSteering: 25
   _viewAngle: 90
   _eyeHeight: 1
   _keepTargetTime: 2

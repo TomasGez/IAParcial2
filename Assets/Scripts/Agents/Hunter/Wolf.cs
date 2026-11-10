@@ -2,13 +2,17 @@ using UnityEngine;
 
 public class Wolf : AgentHunter
 {
-    [SerializeField] private HunterUI _hunterUI;
+    private HunterTrigger _hunterTrigger;
+    private HunterUI _hunterUI;
+    private Animator _hunterAnim;
 
-    [Header("Scout Stats")]
-    [SerializeField] private ScoutData _scoutData;
-
-    [Header("Retreat Stats")]
-    [SerializeField] private RetreatData _retreatData;
+    private StateScout _stateScout;
+    private StateRetreat _stateRetreat;
+    private StateRest _stateRest;
+    private StateRespawn _stateRespawn;
+    private StateHunt _stateHunt;
+    private StateGather _stateGather;
+    private StateLeave _stateLeave;
 
     [Header("Rest Stats")]
     [SerializeField] private RestData _restData;
@@ -29,21 +33,25 @@ public class Wolf : AgentHunter
     {
         base.Awake();
 
-        StateScout stateScout = new StateScout(this, _hunterUI, _scoutData, _stateMachine);
-        StateRetreat stateRetreat = new StateRetreat(this, _hunterUI, _retreatData, _stateMachine);
-        StateRest stateRest = new StateRest(this, _hunterUI, _restData, _stateMachine);
-        StateRespawn stateRespawn = new StateRespawn(this, _hunterUI, _respawnData, _stateMachine);
-        StateHunt stateHunt = new StateHunt(this, _hunterUI, _huntData, _stateMachine);
-        StateGather stateGather = new StateGather(this, _hunterUI, _gatherData, _stateMachine);
-        StateLeave stateLeave = new StateLeave(this, _hunterUI, _leaveData, _stateMachine);
+        _hunterTrigger = GetComponentInChildren<HunterTrigger>();
+        _hunterUI = GetComponentInChildren<HunterUI>();
+        _hunterAnim = GetComponentInChildren<Animator>();
 
-        _stateMachine.RegisterState(HunterMode.Scout, stateScout);
-        _stateMachine.RegisterState(HunterMode.Retreat, stateRetreat);
-        _stateMachine.RegisterState(HunterMode.Rest, stateRest);
-        _stateMachine.RegisterState(HunterMode.Respawn, stateRespawn);
-        _stateMachine.RegisterState(HunterMode.Hunt, stateHunt);
-        _stateMachine.RegisterState(HunterMode.Gather, stateGather);
-        _stateMachine.RegisterState(HunterMode.Leave, stateLeave);
+        _stateScout = new StateScout(this, _hunterUI, _stateMachine);
+        _stateRetreat = new StateRetreat(this, _hunterUI, _stateMachine);
+        _stateRest = new StateRest(this, _hunterUI, _restData, _stateMachine);
+        _stateRespawn = new StateRespawn(this, _hunterUI, _respawnData, _stateMachine);
+        _stateHunt = new StateHunt(this, _hunterUI, _huntData, _stateMachine);
+        _stateGather = new StateGather(this, _hunterUI, _gatherData, _stateMachine);
+        _stateLeave = new StateLeave(this, _hunterUI, _leaveData, _stateMachine);
+
+        _stateMachine.RegisterState(HunterMode.Scout, _stateScout);
+        _stateMachine.RegisterState(HunterMode.Retreat, _stateRetreat);
+        _stateMachine.RegisterState(HunterMode.Rest, _stateRest);
+        _stateMachine.RegisterState(HunterMode.Respawn, _stateRespawn);
+        _stateMachine.RegisterState(HunterMode.Hunt, _stateHunt);
+        _stateMachine.RegisterState(HunterMode.Gather, _stateGather);
+        _stateMachine.RegisterState(HunterMode.Leave, _stateLeave);
 
         _stateMachine.StartFirstState(HunterMode.Scout);
     }

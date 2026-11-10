@@ -6,6 +6,10 @@ public class Sheep : AgentPrey
     private PreyUI _preyUI;
     private Animator _preyAnim;
 
+    private StateFlock _stateFlock;
+    private StateEscape _stateEscape;
+    private StateDead _stateDead;
+
     public bool IsDead { get; private set; }
 
     [Header("Flock Stats")]
@@ -19,13 +23,13 @@ public class Sheep : AgentPrey
         _preyUI = GetComponentInChildren<PreyUI>();
         _preyAnim = GetComponentInChildren<Animator>();
 
-        StateFlock stateFlock = new StateFlock(this, _preyUI, _flockData, _stateMachine);
-        StateEscape stateEscape = new StateEscape(this, _preyUI, _stateMachine);
-        StateDead stateDead = new StateDead(_preyUI, _preyAnim, _stateMachine);
+        _stateFlock = new StateFlock(this, _preyUI, _flockData, _stateMachine);
+        _stateEscape = new StateEscape(this, _preyUI, _stateMachine);
+        _stateDead = new StateDead(_preyUI, _preyAnim, _stateMachine);
 
-        _stateMachine.RegisterState(PreyMode.Flock, stateFlock);
-        _stateMachine.RegisterState(PreyMode.Escape, stateEscape);
-        _stateMachine.RegisterState(PreyMode.Dead, stateDead);
+        _stateMachine.RegisterState(PreyMode.Flock, _stateFlock);
+        _stateMachine.RegisterState(PreyMode.Escape, _stateEscape);
+        _stateMachine.RegisterState(PreyMode.Dead, _stateDead);
 
         _stateMachine.StartFirstState(PreyMode.Flock);
 
@@ -52,9 +56,9 @@ public class Sheep : AgentPrey
     {
         if (!IsDead)
         {
-            if (CurrentTarget != null) _stateMachine.ChangeState(PreyMode.Escape);
+            if (CurrentTarget != null && _stateMachine._currentState != _stateEscape) _stateMachine.ChangeState(PreyMode.Escape);
 
-            else _stateMachine.ChangeState(PreyMode.Flock);
+            else if (_stateMachine._currentState != _stateFlock) _stateMachine.ChangeState(PreyMode.Flock);
         }
 
         _stateMachine.Update();

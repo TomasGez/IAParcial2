@@ -5,14 +5,12 @@ public class Ghost : AgentKiller
     private KillerTrigger _killerTrigger;
     private KillerUI _killerUI;
 
+    private StatePatrol _statePatrol;
+    private StateChase _stateChase;
+    private StateTrack _stateTrack;
+
     [Header("Patrol Stats")]
     [SerializeField] private PatrolData _patrolData;
-
-    [Header("Chase Stats")]
-    [SerializeField] private ChaseData _chaseData;
-
-    [Header("Track Stats")]
-    [SerializeField] private TrackData _trackData;
 
     protected override void Awake()
     {
@@ -21,13 +19,13 @@ public class Ghost : AgentKiller
         _killerTrigger = GetComponentInChildren<KillerTrigger>();
         _killerUI = GetComponentInChildren<KillerUI>();
 
-        StatePatrol statePatrol = new StatePatrol(this, _killerUI, _patrolData, _stateMachine);
-        StateChase stateChase = new StateChase(this, _killerUI, _chaseData, _stateMachine);
-        StateTrack stateTrack = new StateTrack(this, _killerUI, _trackData, _stateMachine);
+        _statePatrol = new StatePatrol(this, _killerUI, _patrolData, _stateMachine);
+        _stateChase = new StateChase(this, _killerUI, _stateMachine);
+        _stateTrack = new StateTrack(this, _killerUI, _stateMachine);
 
-        _stateMachine.RegisterState(KillerMode.Patrol, statePatrol);
-        _stateMachine.RegisterState(KillerMode.Chase, stateChase);
-        _stateMachine.RegisterState(KillerMode.Track, stateTrack);
+        _stateMachine.RegisterState(KillerMode.Patrol, _statePatrol);
+        _stateMachine.RegisterState(KillerMode.Chase, _stateChase);
+        _stateMachine.RegisterState(KillerMode.Track, _stateTrack);
 
         _stateMachine.StartFirstState(KillerMode.Patrol);
     }
@@ -48,11 +46,11 @@ public class Ghost : AgentKiller
 
     private void Update()
     {
-        if (CurrentTarget != null && _killerTrigger.CanSeeTarget) _stateMachine.ChangeState(KillerMode.Chase);
+        if (CurrentTarget != null && _killerTrigger.CanSeeTarget && _stateMachine._currentState != _stateChase) _stateMachine.ChangeState(KillerMode.Chase);
 
-        else if (CurrentTarget != null && !_killerTrigger.CanSeeTarget) _stateMachine.ChangeState(KillerMode.Track);
+        else if (CurrentTarget != null && !_killerTrigger.CanSeeTarget && _stateMachine._currentState != _stateTrack) _stateMachine.ChangeState(KillerMode.Track);
 
-        else _stateMachine.ChangeState(KillerMode.Patrol);
+        else if (_stateMachine._currentState != _statePatrol) _stateMachine.ChangeState(KillerMode.Patrol);
 
         _stateMachine.Update();
 
