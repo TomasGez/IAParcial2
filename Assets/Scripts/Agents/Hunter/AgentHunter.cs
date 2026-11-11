@@ -4,7 +4,19 @@ using UnityEngine;
 
 public abstract class AgentHunter : AgentPathFinding
 {
+    protected Node _currentEndNode;
     public Node NextNode { get; protected set; }
+
+    public override void StopWalkPath()
+    {
+        base.StopWalkPath();
+
+        if (_currentEndNode != null)
+        {
+            _currentEndNode.IsCurrentObjective(false);
+            _currentEndNode = null;
+        }
+    }
 
     public void SeekRandom()
     {
@@ -25,7 +37,7 @@ public abstract class AgentHunter : AgentPathFinding
 
         List<Node> path = PathFinder<Node>.AStarSearch(startNode, endNode, node => node.Neighbors,
                                                        node => node.DangerNodeCost(),
-                                                       node => node.transform.position, true);
+                                                       node => node.transform.position, false);
 
         if (_walkingRoutine != null) StopCoroutine(_walkingRoutine);
         _walkingRoutine = StartCoroutine(WalkRandomPath(path));

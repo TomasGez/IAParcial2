@@ -14,6 +14,10 @@ public class Wolf : AgentHunter
     private StateGather _stateGather;
     private StateLeave _stateLeave;
 
+    public bool IsDead { get; private set; }
+    public bool IsBeingFollowed { get; private set; }
+    public bool IsSafe { get; private set; }
+
     [Header("Rest Stats")]
     [SerializeField] private RestData _restData;
 

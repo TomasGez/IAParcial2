@@ -7,11 +7,10 @@ public class AgentPathFinding : Agent
     [Header("Path Finding")]
     [SerializeField] protected Graph _grid;
     [SerializeField] protected float _nodeDetectionDistance = 2f;
-    protected Node _currentEndNode;
     protected Node _phantomNode;
     protected Coroutine _walkingRoutine;
 
-    public void StopWalkPath()
+    public virtual void StopWalkPath()
     {
         if (_walkingRoutine != null)
         {
@@ -23,12 +22,6 @@ public class AgentPathFinding : Agent
         {
             Destroy(_phantomNode.gameObject);
             _phantomNode = null;
-        }
-
-        if (_currentEndNode != null)
-        {
-            _currentEndNode.IsCurrentObjective(false);
-            _currentEndNode = null;
         }
     }
 
