@@ -37,13 +37,13 @@ public class Wolf : AgentHunter
         _hunterUI = GetComponentInChildren<HunterUI>();
         _hunterAnim = GetComponentInChildren<Animator>();
 
-        _stateScout = new StateScout(this, _hunterUI, _stateMachine);
-        _stateRetreat = new StateRetreat(this, _hunterUI, _stateMachine);
-        _stateRest = new StateRest(this, _hunterUI, _restData, _stateMachine);
-        _stateRespawn = new StateRespawn(this, _hunterUI, _respawnData, _stateMachine);
-        _stateHunt = new StateHunt(this, _hunterUI, _huntData, _stateMachine);
-        _stateGather = new StateGather(this, _hunterUI, _gatherData, _stateMachine);
-        _stateLeave = new StateLeave(this, _hunterUI, _leaveData, _stateMachine);
+        _stateScout = new StateScout(this, _hunterUI, _hunterAnim, _stateMachine);
+        _stateRetreat = new StateRetreat(this, _hunterUI, _hunterAnim, _stateMachine);
+        _stateRest = new StateRest(this, _hunterUI, _hunterAnim, _restData, _stateMachine);
+        _stateRespawn = new StateRespawn(this, _hunterUI, _hunterAnim, _respawnData, _stateMachine);
+        _stateHunt = new StateHunt(this, _hunterUI, _hunterAnim, _huntData, _stateMachine);
+        _stateGather = new StateGather(this, _hunterUI, _hunterAnim, _gatherData, _stateMachine);
+        _stateLeave = new StateLeave(this, _hunterUI, _hunterAnim, _leaveData, _stateMachine);
 
         _stateMachine.RegisterState(HunterMode.Scout, _stateScout);
         _stateMachine.RegisterState(HunterMode.Retreat, _stateRetreat);

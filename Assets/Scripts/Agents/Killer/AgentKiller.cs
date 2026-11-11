@@ -33,14 +33,16 @@ public class AgentKiller : AgentPathFinding
     {
         foreach (Node node in path)
         {
-            NextNode = node;
-
             while ((transform.position - node.transform.position).sqrMagnitude > 0.01f)
             {
                 Seek(node);
                 yield return null;
             }
         }
+
+        yield return null;
+
+        CurrentTarget = null;
     }
 
     public void SeekLoop(List<Node> loopNodes)
@@ -69,8 +71,6 @@ public class AgentKiller : AgentPathFinding
     {
         foreach (Node node in path)
         {
-            NextNode = node;
-
             while ((transform.position - node.transform.position).sqrMagnitude > 0.01f)
             {
                 Seek(node);

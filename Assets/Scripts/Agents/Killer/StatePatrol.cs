@@ -30,7 +30,6 @@ public class StatePatrol : State
     public override void Exit()
     {
         _agent.StopWalkPath();
-        Debug.Log("salio");
     }
 }
 

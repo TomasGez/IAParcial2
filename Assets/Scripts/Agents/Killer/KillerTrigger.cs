@@ -25,8 +25,8 @@ public class KillerTrigger : FieldOfViewSensor
             
             if (target == null) return;
 
-            OnHunterEnter?.Invoke(target);
             _targetInRange = true;
+            OnHunterEnter?.Invoke(target);
         }
     }
 

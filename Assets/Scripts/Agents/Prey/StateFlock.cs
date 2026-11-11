@@ -22,6 +22,8 @@ public class StateFlock : State
 
     public override void Update()
     {
+        if (_agent.CurrentTarget != null) _stateMachine.ChangeState(PreyMode.Escape);
+
         _agent.Flocking(_data.separationRadius, _data.separationWeight,
                         _data.alignmentRadius, _data.alignmentWeight,
                         _data.cohesionRadius, _data.cohesionWeight);

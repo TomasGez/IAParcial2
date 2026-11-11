@@ -6387,6 +6387,10 @@ PrefabInstance:
       propertyPath: '_neighbors.Array.data[9]'
       value: 
       objectReference: {fileID: 122585596}
+    - target: {fileID: 261953686485109831, guid: db16132be30030d4ebae3d8f3e22c18f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1286329107493569716, guid: db16132be30030d4ebae3d8f3e22c18f, type: 3}
       propertyPath: m_Icon
       value: 
@@ -7488,6 +7492,10 @@ PrefabInstance:
       propertyPath: '_neighbors.Array.data[10]'
       value: 
       objectReference: {fileID: 1920798432}
+    - target: {fileID: 261953686485109831, guid: db16132be30030d4ebae3d8f3e22c18f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1286329107493569716, guid: db16132be30030d4ebae3d8f3e22c18f, type: 3}
       propertyPath: m_Icon
       value: 
@@ -7683,6 +7691,10 @@ PrefabInstance:
       propertyPath: '_neighbors.Array.data[8]'
       value: 
       objectReference: {fileID: 953235129}
+    - target: {fileID: 261953686485109831, guid: db16132be30030d4ebae3d8f3e22c18f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1286329107493569716, guid: db16132be30030d4ebae3d8f3e22c18f, type: 3}
       propertyPath: m_Icon
       value: 
@@ -12903,6 +12915,10 @@ PrefabInstance:
       propertyPath: '_neighbors.Array.data[8]'
       value: 
       objectReference: {fileID: 1024612529}
+    - target: {fileID: 261953686485109831, guid: db16132be30030d4ebae3d8f3e22c18f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1286329107493569716, guid: db16132be30030d4ebae3d8f3e22c18f, type: 3}
       propertyPath: m_Icon
       value: 
@@ -13793,6 +13809,10 @@ PrefabInstance:
       propertyPath: '_neighbors.Array.data[9]'
       value: 
       objectReference: {fileID: 122585596}
+    - target: {fileID: 261953686485109831, guid: db16132be30030d4ebae3d8f3e22c18f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1286329107493569716, guid: db16132be30030d4ebae3d8f3e22c18f, type: 3}
       propertyPath: m_Icon
       value: 
@@ -14138,6 +14158,10 @@ PrefabInstance:
       propertyPath: '_neighbors.Array.data[8]'
       value: 
       objectReference: {fileID: 1024612529}
+    - target: {fileID: 261953686485109831, guid: db16132be30030d4ebae3d8f3e22c18f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1286329107493569716, guid: db16132be30030d4ebae3d8f3e22c18f, type: 3}
       propertyPath: m_Icon
       value: 

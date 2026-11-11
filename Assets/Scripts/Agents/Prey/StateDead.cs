@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class StateDead : State
 {
-    public StateDead(PreyUI UI, Animator Anim, FSM stateMachine) : base(stateMachine)
+    public StateDead(PreyUI UI, Animator anim, FSM stateMachine) : base(stateMachine)
     {
         _UI = UI;
-        _anim = Anim;
+        _anim = anim;
     }
 
     private PreyUI _UI;
@@ -14,7 +14,7 @@ public class StateDead : State
     public override void Enter()
     {
         _UI.ChangeMode(PreyMode.Dead);
-        _anim.SetBool("IsDead", true);
+        _anim.SetTrigger("IsDead");
     }
 
     public override void Update() { }

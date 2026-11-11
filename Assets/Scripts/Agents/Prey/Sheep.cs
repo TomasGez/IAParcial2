@@ -54,13 +54,6 @@ public class Sheep : AgentPrey
 
     private void Update()
     {
-        if (!IsDead)
-        {
-            if (CurrentTarget != null && _stateMachine._currentState != _stateEscape) _stateMachine.ChangeState(PreyMode.Escape);
-
-            else if (_stateMachine._currentState != _stateFlock) _stateMachine.ChangeState(PreyMode.Flock);
-        }
-
         _stateMachine.Update();
 
         Movement();

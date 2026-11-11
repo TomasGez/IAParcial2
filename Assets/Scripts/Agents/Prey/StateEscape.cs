@@ -18,7 +18,9 @@ public class StateEscape : State
 
     public override void Update()
     {
-        _agent.Evade(_agent.CurrentTarget);
+        if (_agent.CurrentTarget == null) _stateMachine.ChangeState(PreyMode.Flock);
+
+        if (_agent.CurrentTarget != null) _agent.Evade(_agent.CurrentTarget);
     }
 
     public override void Exit() { }

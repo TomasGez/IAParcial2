@@ -46,8 +46,6 @@ public class Ghost : AgentKiller
 
     private void Update()
     {
-        
-
         _stateMachine.Update();
 
         Movement();

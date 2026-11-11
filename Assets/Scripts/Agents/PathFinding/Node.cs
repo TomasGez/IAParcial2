@@ -12,8 +12,9 @@ public class Node : MonoBehaviour
 
     public List<Node> Neighbors => _neighbors;
     public Zone NodeType => _nodeType;
+    public Image NodeTypeIcon => _nodeTypeIcon;
 
-    private void OnEnable()
+    private void Awake()
     {
         _nodeTypeIcon.enabled = false;
     }
