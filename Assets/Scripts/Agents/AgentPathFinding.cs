@@ -25,9 +25,9 @@ public class AgentPathFinding : Agent
         }
     }
 
-    protected void Seek(Node target)
+    protected void Seek(Vector3 position)
     {
-        Vector3 desiredVelocity = CalculatedDirection(target.transform.position);
+        Vector3 desiredVelocity = CalculatedDirection(position);
 
         _currentVelocity += CalculatedSteering(desiredVelocity);
     }

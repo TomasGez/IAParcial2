@@ -19,6 +19,8 @@ public class StateRest : State
     {
         _UI.ChangeMode(HunterMode.Rest);
         _anim.SetTrigger("IsIdle");
+
+        _agent.StopVelocity();
     }
 
     public override void Update()

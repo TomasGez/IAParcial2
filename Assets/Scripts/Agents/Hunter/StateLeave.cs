@@ -2,23 +2,23 @@ using UnityEngine;
 
 public class StateLeave : State
 {
-    public StateLeave(AgentHunter agent, HunterUI UI, Animator anim, LeaveData data, FSM stateMachine) : base(stateMachine)
+    public StateLeave(AgentHunter agent, HunterUI UI, Animator anim, FSM stateMachine) : base(stateMachine)
     {
         _agent = agent;
         _UI = UI;
         _anim = anim;
-        _data = data;
     }
 
     private AgentHunter _agent;
     private HunterUI _UI;
     private Animator _anim;
-    private LeaveData _data;
 
     public override void Enter()
     {
         _UI.ChangeMode(HunterMode.Leave);
         _anim.SetTrigger("IsWalking");
+
+        _agent.SeekClosestNode(Zone.Goal);
     }
 
     public override void Update()
@@ -26,11 +26,8 @@ public class StateLeave : State
         
     }
 
-    public override void Exit() { }
-}
-
-[System.Serializable]
-public class LeaveData
-{
-    
+    public override void Exit() 
+    {
+        _agent.StopWalkPath();
+    }
 }

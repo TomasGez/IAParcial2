@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class KillerTrigger : FieldOfViewSensor
 {
-    public event Action<Agent> OnHunterEnter;
+    public event Action<Wolf> OnHunterEnter;
     private bool _targetInRange = false;
 
     private void Awake()
@@ -20,13 +21,11 @@ public class KillerTrigger : FieldOfViewSensor
     {
         if (IsValidTarget(other.gameObject.layer, _agent.TargetMask))
         {
-            Wolf target = other.GetComponentInParent<Wolf>();
-            _target = target;
-            
-            if (target == null) return;
-
-            _targetInRange = true;
-            OnHunterEnter?.Invoke(target);
+            if (other.TryGetComponent<Wolf>(out var wolf))
+            {
+                _targetInRange = true;
+                OnHunterEnter?.Invoke(wolf);
+            }
         }
     }
 
@@ -34,13 +33,7 @@ public class KillerTrigger : FieldOfViewSensor
     {
         if (IsValidTarget(other.gameObject.layer, _agent.TargetMask))
         {
-            Wolf target = other.GetComponentInParent<Wolf>();
-
-            if (target == null) return;
-
-            if (target == _target) _targetInRange = false;
+            if (other.TryGetComponent<Wolf>(out var wolf)) _targetInRange = false;
         }
-    }
-
-    
+    } 
 }

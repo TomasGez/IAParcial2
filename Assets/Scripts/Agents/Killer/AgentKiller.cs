@@ -5,9 +5,10 @@ using UnityEngine;
 public class AgentKiller : AgentPathFinding
 {
     protected static List<Ghost> _allGhost = new List<Ghost>();
+    public Wolf WolfTarget => CurrentTarget as Wolf;
     private int _loopIndex = 0;
 
-    public void SeekNextNode(AgentHunter target)
+    public void SeekNextNode(Wolf target)
     {
         StopWalkPath();
 
@@ -26,23 +27,23 @@ public class AgentKiller : AgentPathFinding
                                                        node => node.transform.position, true);
 
         if (_walkingRoutine != null) StopCoroutine(_walkingRoutine);
-        _walkingRoutine = StartCoroutine(WalkTargetPath(path));
+        _walkingRoutine = StartCoroutine(WalkTargetPath(path, target));
     }
 
-    private IEnumerator WalkTargetPath(List<Node> path)
+    private IEnumerator WalkTargetPath(List<Node> path, Wolf target)
     {
         foreach (Node node in path)
         {
             while ((transform.position - node.transform.position).sqrMagnitude > 0.01f)
             {
-                Seek(node);
+                Seek(node.transform.position);
                 yield return null;
             }
         }
 
         yield return null;
 
-        CurrentTarget = null;
+        TargetExited(target);
     }
 
     public void SeekLoop(List<Node> loopNodes)
@@ -61,7 +62,7 @@ public class AgentKiller : AgentPathFinding
 
         List<Node> path = PathFinder<Node>.AStarSearch(startNode, endNode, node => node.Neighbors,
                                                        node => node.DangerNodeCost(),
-                                                       node => node.transform.position, true);
+                                                       node => node.transform.position, false);
 
         if (_walkingRoutine != null) StopCoroutine(_walkingRoutine);
         _walkingRoutine = StartCoroutine(WalkLoopPath(path, loopNodes));
@@ -73,7 +74,7 @@ public class AgentKiller : AgentPathFinding
         {
             while ((transform.position - node.transform.position).sqrMagnitude > 0.01f)
             {
-                Seek(node);
+                Seek(node.transform.position);
                 yield return null;
             }
         }

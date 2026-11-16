@@ -30,9 +30,6 @@ public class Wolf : AgentHunter
     [Header("Gather Stats")]
     [SerializeField] private GatherData _gatherData;
 
-    [Header("Leave Stats")]
-    [SerializeField] private LeaveData _leaveData;
-
     protected override void Awake()
     {
         base.Awake();
@@ -47,7 +44,7 @@ public class Wolf : AgentHunter
         _stateRespawn = new StateRespawn(this, _hunterUI, _hunterAnim, _respawnData, _stateMachine);
         _stateHunt = new StateHunt(this, _hunterUI, _hunterAnim, _huntData, _stateMachine);
         _stateGather = new StateGather(this, _hunterUI, _hunterAnim, _gatherData, _stateMachine);
-        _stateLeave = new StateLeave(this, _hunterUI, _hunterAnim, _leaveData, _stateMachine);
+        _stateLeave = new StateLeave(this, _hunterUI, _hunterAnim, _stateMachine);
 
         _stateMachine.RegisterState(HunterMode.Scout, _stateScout);
         _stateMachine.RegisterState(HunterMode.Retreat, _stateRetreat);
@@ -65,5 +62,25 @@ public class Wolf : AgentHunter
         _stateMachine.Update();
 
         Movement();
+    }
+
+    public void WasKilled(bool isActive)
+    {
+        IsDead = isActive;
+
+        if (IsDead)
+        {
+            _stateMachine.ChangeState(HunterMode.Respawn);
+        }
+    }
+
+    public void HasSomeoneChasing(bool isActive)
+    {
+        IsBeingFollowed = isActive;
+
+        if (IsBeingFollowed)
+        {
+            _stateMachine.ChangeState(HunterMode.Retreat);
+        }
     }
 }

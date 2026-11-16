@@ -25,7 +25,7 @@ public class Sheep : AgentPrey
 
         _stateFlock = new StateFlock(this, _preyUI, _flockData, _stateMachine);
         _stateEscape = new StateEscape(this, _preyUI, _stateMachine);
-        _stateDead = new StateDead(_preyUI, _preyAnim, _stateMachine);
+        _stateDead = new StateDead(this, _preyUI, _preyAnim, _stateMachine);
 
         _stateMachine.RegisterState(PreyMode.Flock, _stateFlock);
         _stateMachine.RegisterState(PreyMode.Escape, _stateEscape);
@@ -69,7 +69,6 @@ public class Sheep : AgentPrey
         {
             _allPreys.Remove(this);
             _stateMachine.ChangeState(PreyMode.Dead);
-            _currentVelocity = Vector3.zero;
         }
     }
 

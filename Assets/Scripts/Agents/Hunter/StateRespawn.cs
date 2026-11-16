@@ -19,6 +19,8 @@ public class StateRespawn : State
     {
         _UI.ChangeMode(HunterMode.Respawn);
         _anim.SetTrigger("IsDead");
+
+        _agent.StopVelocity();
     }
 
     public override void Update()
@@ -32,5 +34,5 @@ public class StateRespawn : State
 [System.Serializable]
 public class RespawnData
 {
-    
+    public float _respawnTime;
 }

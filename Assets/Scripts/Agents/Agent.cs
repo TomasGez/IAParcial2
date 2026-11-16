@@ -8,13 +8,13 @@ public abstract class Agent : MonoBehaviour
     protected FSM _stateMachine;
     private Coroutine _keepLookingRoutine;
     
-    private List<Agent> _targets = new List<Agent>();
+    private List<Agent> _targets = new();
     public Agent CurrentTarget { get; protected set; }
 
     [Header("Agent Stats")]
     protected Vector3 _currentVelocity;
     [SerializeField] protected float _maxSpeed;
-    protected float _currentSpeed;
+    private float _currentSpeed;
     [SerializeField] protected float _maxSteering;
 
     [Header("Sensor")]
@@ -74,9 +74,19 @@ public abstract class Agent : MonoBehaviour
         }
         else
         {
-            if (_targets.Count > 0) CurrentTarget = _targets[0];
+            if (_targets.Contains(target)) _targets.Remove(target);
 
-            else CurrentTarget = null;
+            if (target == CurrentTarget)
+            {
+                if (_targets.Count > 0)
+                {
+                    CurrentTarget = _targets[0];
+                }
+                else
+                {
+                    CurrentTarget = null;
+                }
+            }
         }
     }
 
@@ -137,5 +147,17 @@ public abstract class Agent : MonoBehaviour
         float prediction = distance / (_maxSpeed + target._currentVelocity.magnitude);
         Vector3 futurePosition = target.transform.position + target._currentVelocity * prediction;
         return futurePosition;
+    }
+
+    public void StopVelocity()
+    {
+        _currentVelocity = Vector3.zero;
+    }
+
+    public void FastSpeed(float value = 0)
+    {
+        if (value > 0) _currentSpeed += value;
+
+        else _currentSpeed = _maxSpeed;
     }
 }

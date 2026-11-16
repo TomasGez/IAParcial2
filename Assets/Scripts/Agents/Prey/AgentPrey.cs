@@ -8,7 +8,7 @@ public abstract class AgentPrey : Agent
     public void RandomDirection()
     {
         Vector3 direction = new Vector3(Random.Range(-1f, 1f), 0f,Random.Range(-1f, 1f));
-        _currentVelocity = direction.normalized * _currentSpeed;
+        _currentVelocity = direction.normalized * _maxSpeed;
     }
 
     private Vector3 CalculatedSeparation(float radius)

@@ -19,6 +19,8 @@ public class StateGather : State
     {
         _UI.ChangeMode(HunterMode.Gather);
         _anim.SetTrigger("IsIdle");
+
+        _agent.StopVelocity();
     }
 
     public override void Update()
