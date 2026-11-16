@@ -25,7 +25,7 @@ public class StateScout : State
 
     public override void Update()
     {
-        if (_agent.SheepTarget != null) _stateMachine.ChangeState(HunterMode.Hunt);
+        if (_agent.SheepTarget != null && _agent.CollectedPreys < _agent.GoalCollection) _stateMachine.ChangeState(HunterMode.Hunt);
     }
 
     public override void Exit()

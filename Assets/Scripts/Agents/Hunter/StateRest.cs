@@ -31,7 +31,7 @@ public class StateRest : State
     {
         if (_timer > 0)
         {
-            _timer += Time.deltaTime;
+            _timer -= Time.deltaTime;
             _UI.UpdateBar(_timer, _data._restTime, HunterMode.Rest);
         }
 

@@ -112,7 +112,19 @@ MonoBehaviour:
     m_Bits: 128
   _grid: {fileID: 0}
   _nodeDetectionDistance: 2
-  _hunterUI: {fileID: 5026514126690402182}
+  _goalCollection: 3
+  _restData:
+    _restTime: 5
+  _respawnData:
+    _respawnTime: 5
+  _huntData:
+    _preySlowingDistance: 2.5
+    _preyMinDistance: 2
+    _huntTime: 4
+  _gatherData:
+    _corpseSlowingDistance: 2
+    _corpseMinDistance: 1
+    _gatherTime: 4
 --- !u!1 &506846625085651839
 GameObject:
   m_ObjectHideFlags: 0
