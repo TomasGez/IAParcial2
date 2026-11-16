@@ -46,6 +46,7 @@ public class StateGather : State
         if (_timer <= 0)
         {
             _agent.SheepTarget.TerminatePrey();
+            _agent.ClearTargets();
             _agent.PreyCollected();
             _stateMachine.ChangeState(HunterMode.Scout);
         }
@@ -53,6 +54,7 @@ public class StateGather : State
 
     public override void Exit()
     {
+        _agent.FastSpeed();
         _timer = _data._gatherTime;
         _UI.UpdateCollected(_agent.CollectedPreys, _agent.GoalCollection);
     }

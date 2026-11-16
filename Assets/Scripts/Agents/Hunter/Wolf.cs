@@ -50,6 +50,8 @@ public class Wolf : AgentHunter
         _stateMachine.RegisterState(HunterMode.Gather, _stateGather);
         _stateMachine.RegisterState(HunterMode.Leave, _stateLeave);
 
+        _hunterUI.UpdateCollected(CollectedPreys, GoalCollection);
+
         _stateMachine.StartFirstState(HunterMode.Scout);
     }
 

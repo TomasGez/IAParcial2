@@ -43,6 +43,7 @@ public class StateRest : State
 
     public override void Exit()
     {
+        _agent.FastSpeed();
         _timer = _data._restTime;
     }
 }

@@ -63,6 +63,7 @@ public class StateRespawn : State
 
     public override void Exit()
     {
+        _agent.FastSpeed();
         _timer = 0f;
     }
 }
