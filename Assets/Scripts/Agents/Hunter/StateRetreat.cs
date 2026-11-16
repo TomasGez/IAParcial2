@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class StateRetreat : State
 {
-    public StateRetreat(AgentHunter agent, HunterUI UI, Animator anim, FSM stateMachine) : base(stateMachine)
+    public StateRetreat(Wolf agent, HunterUI UI, Animator anim, FSM stateMachine) : base(stateMachine)
     {
         _agent = agent;
         _UI = UI;
         _anim = anim;
     }
 
-    private AgentHunter _agent;
+    private Wolf _agent;
     private HunterUI _UI;
     private Animator _anim;
 
@@ -17,6 +17,10 @@ public class StateRetreat : State
     {
         _UI.ChangeMode(HunterMode.Retreat);
         _anim.SetTrigger("IsWalking");
+
+        _agent.FastSpeed(1f);
+
+        _agent.SeekClosestNode(Zone.Safe);
     }
 
     public override void Update()
@@ -24,5 +28,9 @@ public class StateRetreat : State
         
     }
 
-    public override void Exit() { }
+    public override void Exit()
+    {
+        _agent.FastSpeed();
+        _agent.StopWalkPath();
+    }
 }

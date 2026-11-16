@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class StateScout : State
 {
-    public StateScout(AgentHunter agent, HunterUI UI, Animator anim, FSM stateMachine) : base(stateMachine)
+    public StateScout(Wolf agent, HunterUI UI, Animator anim, FSM stateMachine) : base(stateMachine)
     {
         _agent = agent;
         _UI = UI;
         _anim = anim;
     }
 
-    private AgentHunter _agent;
+    private Wolf _agent;
     private HunterUI _UI;
     private Animator _anim;
 
@@ -19,11 +19,13 @@ public class StateScout : State
         _anim.SetTrigger("IsWalking");
 
         _agent.SeekRandom();
+
+        if (_agent.CollectedPreys >= _agent.GoalCollection) _stateMachine.ChangeState(HunterMode.Leave);
     }
 
     public override void Update()
     {
-        
+        if (_agent.SheepTarget != null) _stateMachine.ChangeState(HunterMode.Hunt);
     }
 
     public override void Exit()

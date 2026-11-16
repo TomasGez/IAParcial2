@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class AgentHunter : AgentPathFinding
 {
     public Sheep SheepTarget => CurrentTarget as Sheep;
+    public int CollectedPreys { get; protected set; }
     protected Node _currentEndNode;
     public Node NextNode { get; protected set; }
 
@@ -107,10 +108,41 @@ public abstract class AgentHunter : AgentPathFinding
         SeekRandom();
     }
 
-    public void Pursuit(Agent target)
+    public void Pursuit(Agent target, float slowingDistance, float minDistance)
     {
         Vector3 desiredVelocity = CalculatedDirection(CalculatedFuture(target));
 
         _currentVelocity += CalculatedSteering(desiredVelocity);
+
+        float distance = Vector3.Distance(target.transform.position, transform.position);
+
+        if(distance <= minDistance)
+        {
+            _currentVelocity = Vector3.zero;
+            return;
+        }
+
+        float stoppingDistance = distance - minDistance;
+        float targetSpeed = _maxSpeed * (stoppingDistance / slowingDistance);
+        _currentSpeed = Mathf.Min(targetSpeed, _maxSpeed);
+    }
+
+    public void PreyCollected()
+    {
+        CollectedPreys ++;
+    }
+
+    public void ResetCollection()
+    {
+        CollectedPreys = 0;
+    }
+
+    public void RestartFromHome()
+    {
+        List<Node> validNodes = _grid.GetNodesByType(Zone.Start);
+
+        Node startNode = _grid.GetClosestNode(transform.position, validNodes);
+
+        transform.position = startNode.transform.position;
     }
 }

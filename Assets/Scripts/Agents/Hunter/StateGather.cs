@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class StateGather : State
 {
-    public StateGather(AgentHunter agent, HunterUI UI, Animator anim, GatherData data, FSM stateMachine) : base(stateMachine)
+    public StateGather(Wolf agent, HunterUI UI, Animator anim, GatherData data, FSM stateMachine) : base(stateMachine)
     {
         _agent = agent;
         _UI = UI;
@@ -10,7 +10,7 @@ public class StateGather : State
         _data = data;
     }
 
-    private AgentHunter _agent;
+    private Wolf _agent;
     private HunterUI _UI;
     private Animator _anim;
     private GatherData _data;

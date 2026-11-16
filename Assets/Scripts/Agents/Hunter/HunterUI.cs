@@ -81,7 +81,7 @@ public class HunterUI : MonoBehaviour
         
     }
 
-    public void UpdateResting(float currentValue, float maxValue, HunterMode mode)
+    public void UpdateBar(float currentValue, float maxValue, HunterMode mode)
     {
         float barFill = Mathf.Clamp(currentValue / maxValue, 0, 1);
 

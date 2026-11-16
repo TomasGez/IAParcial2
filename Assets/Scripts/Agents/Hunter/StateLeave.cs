@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class StateLeave : State
 {
-    public StateLeave(AgentHunter agent, HunterUI UI, Animator anim, FSM stateMachine) : base(stateMachine)
+    public StateLeave(Wolf agent, HunterUI UI, Animator anim, FSM stateMachine) : base(stateMachine)
     {
         _agent = agent;
         _UI = UI;
         _anim = anim;
     }
 
-    private AgentHunter _agent;
+    private Wolf _agent;
     private HunterUI _UI;
     private Animator _anim;
 

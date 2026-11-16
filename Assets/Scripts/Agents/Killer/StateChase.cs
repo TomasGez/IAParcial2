@@ -2,18 +2,20 @@ using UnityEngine;
 
 public class StateChase : State
 {
-    public StateChase(AgentKiller agent, KillerUI UI, FSM stateMachine) : base(stateMachine)
+    public StateChase(Ghost agent, KillerUI UI, FSM stateMachine) : base(stateMachine)
     {
         _agent = agent;
         _UI = UI;
     }
 
-    private AgentKiller _agent;
+    private Ghost _agent;
     private KillerUI _UI;
 
     public override void Enter()
     {
-        
+        _UI.ChangeMode(KillerMode.Chase);
+
+        _agent.FastSpeed(1f);
     }
 
     public override void Update()
@@ -21,5 +23,8 @@ public class StateChase : State
         
     }
 
-    public override void Exit() { }
+    public override void Exit()
+    {
+        _agent.FastSpeed();
+    }
 }

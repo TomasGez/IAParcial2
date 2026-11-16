@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class StatePatrol : State
 {
-    public StatePatrol(AgentKiller agent, KillerUI UI, PatrolData data, FSM stateMachine) : base(stateMachine)
+    public StatePatrol(Ghost agent, KillerUI UI, PatrolData data, FSM stateMachine) : base(stateMachine)
     {
         _agent = agent;
         _UI = UI;
         _data = data;
     }
 
-    private AgentKiller _agent;
+    private Ghost _agent;
     private KillerUI _UI;
     private PatrolData _data;
 

@@ -57,8 +57,6 @@ public class Sheep : AgentPrey
         _stateMachine.Update();
 
         Movement();
-
-        if (Input.GetKeyDown(KeyCode.Space)) WasKilled(true);
     }
 
     public void WasKilled(bool isActive)

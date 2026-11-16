@@ -14,7 +14,7 @@ public abstract class Agent : MonoBehaviour
     [Header("Agent Stats")]
     protected Vector3 _currentVelocity;
     [SerializeField] protected float _maxSpeed;
-    private float _currentSpeed;
+    protected float _currentSpeed;
     [SerializeField] protected float _maxSteering;
 
     [Header("Sensor")]

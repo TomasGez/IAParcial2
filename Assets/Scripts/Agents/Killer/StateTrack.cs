@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class StateTrack : State
 {
-    public StateTrack(AgentKiller agent, KillerUI UI, FSM stateMachine) : base(stateMachine)
+    public StateTrack(Ghost agent, KillerUI UI, FSM stateMachine) : base(stateMachine)
     {
         _agent = agent;
         _UI = UI;
     }
 
-    private AgentKiller _agent;
+    private Ghost _agent;
     private KillerUI _UI;
 
     public override void Enter()
     {
-        
+        _UI.ChangeMode(KillerMode.Track);
     }
 
     public override void Update()

@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class StateFlock : State
 {
-    public StateFlock(AgentPrey agent, PreyUI UI, FlockData data, FSM stateMachine) : base(stateMachine)
+    public StateFlock(Sheep agent, PreyUI UI, FlockData data, FSM stateMachine) : base(stateMachine)
     {
         _agent = agent;
         _UI = UI;
         _data = data;
     }
 
-    private AgentPrey _agent;
+    private Sheep _agent;
     private PreyUI _UI;
     private FlockData _data;
 

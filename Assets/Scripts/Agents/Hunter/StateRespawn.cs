@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class StateRespawn : State
 {
-    public StateRespawn(AgentHunter agent, HunterUI UI, Animator anim, RespawnData data, FSM stateMachine) : base(stateMachine)
+    public StateRespawn(Wolf agent, HunterUI UI, Animator anim, RespawnData data, FSM stateMachine) : base(stateMachine)
     {
         _agent = agent;
         _UI = UI;
@@ -10,25 +10,61 @@ public class StateRespawn : State
         _data = data;
     }
 
-    private AgentHunter _agent;
+    private Wolf _agent;
     private HunterUI _UI;
     private Animator _anim;
     private RespawnData _data;
 
+    private float _timer = 0f;
+
     public override void Enter()
     {
         _UI.ChangeMode(HunterMode.Respawn);
-        _anim.SetTrigger("IsDead");
 
+        if (_agent.IsDead)
+        {
+            _anim.SetTrigger("IsDead");
+        }
+
+        else
+        {
+            _anim.SetTrigger("IsCelebrating");
+        }
+        
+        _timer = 0f;
+        _UI.UpdateBar(_timer, _data._respawnTime, HunterMode.Respawn);
         _agent.StopVelocity();
     }
 
     public override void Update()
     {
-        
+        if (_timer < _data._respawnTime)
+        {
+            _timer += Time.deltaTime;
+            _UI.UpdateBar(_timer, _data._respawnTime, HunterMode.Respawn);
+        }
+
+        if (_timer >= _data._respawnTime)
+        {
+            if (_agent.IsDead)
+            {
+                _agent.WasKilled(false);
+            }
+
+            else
+            {
+                _agent.ResetCollection();
+            }
+
+            _agent.RestartFromHome();
+            _stateMachine.ChangeState(HunterMode.Scout);
+        }
     }
 
-    public override void Exit() { }
+    public override void Exit()
+    {
+        _timer = 0f;
+    }
 }
 
 [System.Serializable]

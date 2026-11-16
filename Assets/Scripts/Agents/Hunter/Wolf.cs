@@ -18,16 +18,12 @@ public class Wolf : AgentHunter
     public bool IsBeingFollowed { get; private set; }
     public bool IsSafe { get; private set; }
 
-    [Header("Rest Stats")]
+    [Header("Wolf Stats")]
+    [SerializeField] private int _goalCollection;
+    public int GoalCollection => _goalCollection;
     [SerializeField] private RestData _restData;
-
-    [Header("Respawn Stats")]
     [SerializeField] private RespawnData _respawnData;
-
-    [Header("Hunt Stats")]
     [SerializeField] private HuntData _huntData;
-
-    [Header("Gather Stats")]
     [SerializeField] private GatherData _gatherData;
 
     protected override void Awake()
@@ -55,6 +51,22 @@ public class Wolf : AgentHunter
         _stateMachine.RegisterState(HunterMode.Leave, _stateLeave);
 
         _stateMachine.StartFirstState(HunterMode.Scout);
+    }
+
+    private void OnEnable()
+    {
+        if (_hunterTrigger == null) return;
+
+        _hunterTrigger.OnPreyEnter += TargetEntered;
+        _hunterTrigger.OnPreyExit += TargetExited;
+    }
+
+    private void OnDisable()
+    {
+        if (_hunterTrigger == null) return;
+
+        _hunterTrigger.OnPreyEnter -= TargetEntered;
+        _hunterTrigger.OnPreyExit -= TargetExited;
     }
 
     private void Update()
