@@ -29,5 +29,7 @@ public class StateLeave : State
     public override void Exit() 
     {
         _agent.StopWalkPath();
+
+        _anim.ResetTrigger("IsWalking");
     }
 }

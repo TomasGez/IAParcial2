@@ -4,7 +4,7 @@ using UnityEngine;
 public class PreyTrigger : FieldOfViewSensor
 {
     public event Action<Wolf> OnHunterEnter;
-    public event Action<Wolf> OnHunterExit;
+    public event Action<Wolf, float> OnHunterExit;
 
     private void Awake()
     {
@@ -23,7 +23,7 @@ public class PreyTrigger : FieldOfViewSensor
     {
         if (IsValidTarget(other.gameObject.layer, _agent.TargetMask))
         {
-            if (other.TryGetComponent<Wolf>(out var wolf)) OnHunterExit?.Invoke(wolf);
+            if (other.TryGetComponent<Wolf>(out var wolf)) OnHunterExit?.Invoke(wolf, _agent.KeepTargetTime);
         }
     }
 }

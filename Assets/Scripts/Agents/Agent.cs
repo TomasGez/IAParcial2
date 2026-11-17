@@ -28,6 +28,7 @@ public abstract class Agent : MonoBehaviour
 
     public float ViewAngle => _viewAngle;
     public float EyeHeight => _eyeHeight;
+    public float KeepTargetTime => _keepTargetTime;
     public LayerMask TargetMask => _targetMask;
     public LayerMask ObstacleMask => _obstacleMask;
 
@@ -48,7 +49,7 @@ public abstract class Agent : MonoBehaviour
         }
     }
 
-    protected void TargetEntered(Agent target)
+    public void TargetEntered(Agent target)
     {
         if (target == CurrentTarget && _keepLookingRoutine != null)
         {
@@ -61,13 +62,13 @@ public abstract class Agent : MonoBehaviour
         if (CurrentTarget == null) CurrentTarget = _targets[0];
     }
 
-    protected void TargetExited(Agent target)
+    public void TargetExited(Agent target, float keepTargetTime = 0)
     {
         if (target != CurrentTarget)
         {
             if (_targets.Contains(target)) _targets.Remove(target);
         }
-        else if (_keepTargetTime > 0)
+        else if (keepTargetTime > 0)
         {
             if (_keepLookingRoutine == null)
                 _keepLookingRoutine = StartCoroutine(KeepLooking(target));

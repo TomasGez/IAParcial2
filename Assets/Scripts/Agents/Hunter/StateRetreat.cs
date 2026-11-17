@@ -32,5 +32,7 @@ public class StateRetreat : State
     {
         _agent.FastSpeed();
         _agent.StopWalkPath();
+
+        _anim.ResetTrigger("IsWalking");
     }
 }

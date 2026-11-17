@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class AgentPrey : Agent
 {  
     protected static List<Sheep> _allPreys = new List<Sheep>();
+    public Wolf WolfTarget => CurrentTarget as Wolf;
 
     public void RandomDirection()
     {

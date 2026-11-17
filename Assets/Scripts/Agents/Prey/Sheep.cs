@@ -31,9 +31,9 @@ public class Sheep : AgentPrey
         _stateMachine.RegisterState(PreyMode.Escape, _stateEscape);
         _stateMachine.RegisterState(PreyMode.Dead, _stateDead);
 
-        _stateMachine.StartFirstState(PreyMode.Flock);
-
         _allPreys.Add(this);
+
+        _stateMachine.StartFirstState(PreyMode.Flock);
     }
 
     private void OnEnable()

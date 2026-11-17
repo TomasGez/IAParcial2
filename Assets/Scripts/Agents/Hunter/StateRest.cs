@@ -45,6 +45,8 @@ public class StateRest : State
     {
         _agent.FastSpeed();
         _timer = _data._restTime;
+
+        _anim.ResetTrigger("IsIdle");
     }
 }
 

@@ -20,9 +20,9 @@ public class StateEscape : State
 
     public override void Update()
     {
-        if (_agent.CurrentTarget == null) _stateMachine.ChangeState(PreyMode.Flock);
+        if (_agent.WolfTarget == null) _stateMachine.ChangeState(PreyMode.Flock);
 
-        else _agent.Evade(_agent.CurrentTarget);
+        else _agent.Evade(_agent.WolfTarget);
     }
 
     public override void Exit()

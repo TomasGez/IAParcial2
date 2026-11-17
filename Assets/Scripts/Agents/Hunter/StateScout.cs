@@ -31,5 +31,7 @@ public class StateScout : State
     public override void Exit()
     {
         _agent.StopWalkPath();
+
+        _anim.ResetTrigger("IsWalking");
     }
 }

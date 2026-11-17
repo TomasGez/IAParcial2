@@ -62,6 +62,8 @@ public class StateHunt : State
     public override void Exit()
     {
         _agent.FastSpeed();
+
+        _anim.ResetTrigger("IsWalking");
     }
 }
 

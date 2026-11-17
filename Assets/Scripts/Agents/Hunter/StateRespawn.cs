@@ -65,6 +65,10 @@ public class StateRespawn : State
     {
         _agent.FastSpeed();
         _timer = 0f;
+
+        _UI.UpdateCollected(_agent.CollectedPreys, _agent.GoalCollection);
+        _anim.ResetTrigger("IsDead");
+        _anim.ResetTrigger("IsCelebrating");
     }
 }
 
