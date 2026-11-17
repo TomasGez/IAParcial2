@@ -72,7 +72,7 @@ public class Sheep : AgentPrey
 
     public void TerminatePrey()
     {
-        _allPreys.Remove(this);
+        Manager.Instance.RemoveSheep();
         Destroy(gameObject);
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public enum Zone {None, Start, Safe, Hunting, Goal}
@@ -9,6 +10,11 @@ public class Manager : MonoBehaviour
 {
     public static Manager Instance {get; private set;}
 
+    [SerializeField] private Transform _spawner;
+    [SerializeField] private GameObject _sheepPrefab;
+    [SerializeField] private float _spawnTime;
+
+
     private void Awake()
     {
         if(Instance == null)
@@ -19,5 +25,16 @@ public class Manager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void RemoveSheep()
+    {
+        StartCoroutine(SpawnNewSheep());
+    }
+
+    private IEnumerator SpawnNewSheep()
+    {
+        yield return new WaitForSeconds(_spawnTime);
+        Instantiate(_sheepPrefab, _spawner.position, Quaternion.identity);
     }
 }
