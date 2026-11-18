@@ -18,6 +18,7 @@ public class StateScout : State
         if (_agent.CollectedPreys >= _agent.GoalCollection)
         {
             _stateMachine.ChangeState(HunterMode.Leave);
+            _agent.ClearTargets();
             return;
         }
 

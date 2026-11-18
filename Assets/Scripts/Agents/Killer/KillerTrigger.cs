@@ -16,12 +16,13 @@ public class KillerTrigger : FieldOfViewSensor
         _canSeeTarget = _targetInRange && _target != null && InViewAngle() && InLineOfSight();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (IsValidTarget(other.gameObject.layer, _agent.TargetMask))
         {
             if (other.TryGetComponent<Wolf>(out var wolf))
             {
+                _target = wolf;
                 _targetInRange = true;
 
                 if (_targetInRange && _target != null && InViewAngle() && InLineOfSight()) OnHunterEnter?.Invoke(wolf);
@@ -33,7 +34,11 @@ public class KillerTrigger : FieldOfViewSensor
     {
         if (IsValidTarget(other.gameObject.layer, _agent.TargetMask))
         {
-            if (other.TryGetComponent<Wolf>(out var wolf)) _targetInRange = false;
+            if (other.TryGetComponent<Wolf>(out var wolf))
+            {
+                _target = null;
+                _targetInRange = false;
+            }
         }
     }
 }

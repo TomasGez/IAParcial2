@@ -48,6 +48,8 @@ public abstract class AgentHunter : AgentPathFinding
     {
         foreach (Node node in path)
         {
+            NextNode = node;
+
             while ((transform.position - node.transform.position).sqrMagnitude > 0.01f)
             {
                 Seek(node.transform.position);

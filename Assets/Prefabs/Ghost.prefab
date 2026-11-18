@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8607686607378069971}
   - component: {fileID: 6576076888100607852}
   - component: {fileID: 6960654468043530892}
-  - component: {fileID: 6205952647443842976}
   m_Layer: 10
   m_Name: Ghost
   m_TagString: Untagged
@@ -34,6 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3824800558133736986}
+  - {fileID: 9213962965283554298}
   - {fileID: 1970095719125174403}
   - {fileID: 6305221103867665247}
   m_Father: {fileID: 0}
@@ -57,7 +57,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.25
+  m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AgentKiller
   _maxSpeed: 4.5
   _maxSteering: 25
-  _viewAngle: 90
+  _viewAngle: 135
   _eyeHeight: 1
   _keepTargetTime: 0
   _targetMask:
@@ -115,18 +115,6 @@ MonoBehaviour:
   _nodeDetectionDistance: 2
   _patrolData:
     patrolNodes: []
---- !u!114 &6205952647443842976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 424765264718185060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c8efb274a823bc4fa3de86b56a01c28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KillerCollider
 --- !u!1 &1400532980339235073
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +176,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 4
+  m_Radius: 5.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8476168905241867868
 MonoBehaviour:
@@ -534,8 +522,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KillerUI
   _patrolIcon: {fileID: 870858409466421711}
-  _chaseIcon: {fileID: 4853335743683808213}
-  _trackIcon: {fileID: 7430493029305247282}
+  _chaseIcon: {fileID: 7430493029305247282}
+  _trackIcon: {fileID: 4853335743683808213}
 --- !u!1 &4307889322721579954
 GameObject:
   m_ObjectHideFlags: 0
@@ -741,3 +729,71 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &6766268104933248575
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9213962965283554298}
+  - component: {fileID: 1700358139955131687}
+  - component: {fileID: 2427566409623707065}
+  m_Layer: 0
+  m_Name: Killing Range
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9213962965283554298
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6766268104933248575}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5781501573063745217}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1700358139955131687
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6766268104933248575}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.25
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &2427566409623707065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6766268104933248575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c8efb274a823bc4fa3de86b56a01c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KillerKillTrigger
