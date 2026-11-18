@@ -15,7 +15,6 @@ public class Wolf : AgentHunter
     private StateLeave _stateLeave;
 
     public bool IsDead { get; private set; }
-    public bool IsBeingFollowed { get; private set; }
     public bool IsSafe { get; private set; }
 
     [Header("Wolf Stats")]
@@ -78,6 +77,16 @@ public class Wolf : AgentHunter
         Movement();
     }
 
+    public void InSafeZone(bool isActive)
+    {
+        IsSafe = isActive;
+    }
+
+    public void IsBeingFollowed()
+    {
+        _stateMachine.ChangeState(HunterMode.Retreat);
+    }
+
     public void WasKilled(bool isActive)
     {
         IsDead = isActive;
@@ -85,16 +94,6 @@ public class Wolf : AgentHunter
         if (IsDead)
         {
             _stateMachine.ChangeState(HunterMode.Respawn);
-        }
-    }
-
-    public void HasSomeoneChasing(bool isActive)
-    {
-        IsBeingFollowed = isActive;
-
-        if (IsBeingFollowed)
-        {
-            _stateMachine.ChangeState(HunterMode.Retreat);
         }
     }
 }

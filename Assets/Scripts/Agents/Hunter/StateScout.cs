@@ -15,12 +15,16 @@ public class StateScout : State
 
     public override void Enter()
     {
+        if (_agent.CollectedPreys >= _agent.GoalCollection)
+        {
+            _stateMachine.ChangeState(HunterMode.Leave);
+            return;
+        }
+
         _UI.ChangeMode(HunterMode.Scout);
         _anim.SetTrigger("IsWalking");
 
         _agent.SeekRandom();
-
-        if (_agent.CollectedPreys >= _agent.GoalCollection) _stateMachine.ChangeState(HunterMode.Leave);
     }
 
     public override void Update()

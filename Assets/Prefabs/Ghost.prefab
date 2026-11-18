@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8607686607378069971}
   - component: {fileID: 6576076888100607852}
   - component: {fileID: 6960654468043530892}
+  - component: {fileID: 6205952647443842976}
   m_Layer: 10
   m_Name: Ghost
   m_TagString: Untagged
@@ -56,7 +57,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1.25
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -114,6 +115,18 @@ MonoBehaviour:
   _nodeDetectionDistance: 2
   _patrolData:
     patrolNodes: []
+--- !u!114 &6205952647443842976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424765264718185060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c8efb274a823bc4fa3de86b56a01c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KillerCollider
 --- !u!1 &1400532980339235073
 GameObject:
   m_ObjectHideFlags: 0

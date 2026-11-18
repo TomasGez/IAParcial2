@@ -25,7 +25,7 @@ public class AgentPathFinding : Agent
         }
     }
 
-    protected void Seek(Vector3 position)
+    public void Seek(Vector3 position)
     {
         Vector3 desiredVelocity = CalculatedDirection(position);
 

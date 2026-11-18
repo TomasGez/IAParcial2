@@ -25,13 +25,18 @@ public class ZoneTrigger : MonoBehaviour
         {
             if (_zoneType == Zone.Hunting)
             {
-                Sheep target = other.GetComponentInParent<Sheep>();
+                if (other.TryGetComponent<Sheep>(out var sheep))
+                {
+                    if (sheep.WolfTarget != null) sheep.WolfTarget.TargetExited(sheep);
 
-                if (target.WolfTarget != null) target.WolfTarget.TargetExited(target);
+                    sheep.ClearTargets();
+                    sheep.transform.position = Wraparound(sheep.transform.position);
+                }
+            }
 
-                target.ClearTargets();
-
-                target.transform.position = Wraparound(target.transform.position);
+            if (_zoneType == Zone.Start || _zoneType == Zone.Safe || _zoneType == Zone.Goal)
+            {
+                if (other.TryGetComponent<Wolf>(out var wolf)) wolf.InSafeZone(false);
             }
         }
     }
@@ -40,14 +45,9 @@ public class ZoneTrigger : MonoBehaviour
     {
         if ((_targetMask.value & (1 << other.gameObject.layer)) != 0)
         {
-            if (_zoneType == Zone.Safe)
+            if (_zoneType == Zone.Start || _zoneType == Zone.Safe || _zoneType == Zone.Goal)
             {
-                
-            }
-
-            if (_zoneType == Zone.Goal)
-            {
-                
+                if (other.TryGetComponent<Wolf>(out var wolf)) wolf.InSafeZone(true);
             }
         }
     }

@@ -8,7 +8,15 @@ public class AgentKiller : AgentPathFinding
     public Wolf WolfTarget => CurrentTarget as Wolf;
     private int _loopIndex = 0;
 
-    public void SeekNextNode(Wolf target)
+    protected void GhostWolfReference(Wolf target)
+    {
+        foreach (Ghost ghost in _allGhost)
+        {
+            ghost.TargetEntered(target);
+        }
+    }
+
+    public void SeekNextNode()
     {
         StopWalkPath();
 
@@ -20,17 +28,17 @@ public class AgentKiller : AgentPathFinding
             startNode = _phantomNode;
         }
 
-        Node endNode = target.NextNode;
+        Node endNode = WolfTarget.NextNode;
 
         List<Node> path = PathFinder<Node>.AStarSearch(startNode, endNode, node => node.Neighbors,
                                                        node => node.DangerNodeCost(),
                                                        node => node.transform.position, true);
 
         if (_walkingRoutine != null) StopCoroutine(_walkingRoutine);
-        _walkingRoutine = StartCoroutine(WalkTargetPath(path, target));
+        _walkingRoutine = StartCoroutine(WalkTargetPath(path));
     }
 
-    private IEnumerator WalkTargetPath(List<Node> path, Wolf target)
+    private IEnumerator WalkTargetPath(List<Node> path)
     {
         foreach (Node node in path)
         {
@@ -43,7 +51,7 @@ public class AgentKiller : AgentPathFinding
 
         yield return null;
 
-        TargetExited(target);
+        _stateMachine.ChangeState(KillerMode.Patrol);
     }
 
     public void SeekLoop(List<Node> loopNodes)

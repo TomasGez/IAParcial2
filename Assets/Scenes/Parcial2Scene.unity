@@ -12150,6 +12150,10 @@ PrefabInstance:
       propertyPath: _zoneType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -183486666542480160, guid: 9bbe6d93a4f866c499051a34fa7913f6, type: 3}
+      propertyPath: _targetMask.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 1182278187724298996, guid: 9bbe6d93a4f866c499051a34fa7913f6, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
