@@ -91,9 +91,6 @@ public class Wolf : AgentHunter
     {
         IsDead = isActive;
 
-        if (IsDead)
-        {
-            _stateMachine.ChangeState(HunterMode.Respawn);
-        }
+        _stateMachine.ChangeState(HunterMode.Respawn);
     }
 }

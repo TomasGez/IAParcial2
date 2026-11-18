@@ -11,7 +11,6 @@ public class KillerKillTrigger : FieldOfViewSensor
     {
         if (IsValidTarget(other.gameObject.layer, _agent.TargetMask))
         {
-            Debug.Log("Hola");
             if (other.TryGetComponent<Wolf>(out var wolf)) wolf.WasKilled(true);
         }
     }

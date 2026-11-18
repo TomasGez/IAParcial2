@@ -12754,6 +12754,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 215583284}
     - target: {fileID: 6960654468043530892, guid: aec9a0d4c0809104a8b387171e313073, type: 3}
+      propertyPath: _maxSpeed
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960654468043530892, guid: aec9a0d4c0809104a8b387171e313073, type: 3}
       propertyPath: _patrolData.patrolNodes.Array.size
       value: 4
       objectReference: {fileID: 0}

@@ -57,6 +57,7 @@ public class StateRespawn : State
             }
 
             _agent.RestartFromHome();
+            _agent.ClearTargets();
             _stateMachine.ChangeState(HunterMode.Scout);
         }
     }

@@ -29,7 +29,7 @@ public class StateTrack : State
             return;
         }
 
-        if (_trigger.CanSeeTarget && _agent.WolfTarget != null)
+        if (_trigger.CanSeeTarget && _agent.WolfTarget != null && !_agent.WolfTarget.IsDead)
         {
             _agent.WolfTarget.IsBeingFollowed();
             _stateMachine.ChangeState(KillerMode.Chase);

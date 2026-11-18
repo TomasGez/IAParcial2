@@ -31,14 +31,14 @@ public class StatePatrol : State
 
     public override void Update()
     {
-        if (_trigger.CanSeeTarget && _agent.WolfTarget != null)
+        if (_trigger.CanSeeTarget && _agent.WolfTarget != null && !_agent.WolfTarget.IsDead)
         {
             _agent.WolfTarget.IsBeingFollowed();
             _stateMachine.ChangeState(KillerMode.Chase);
             return;
         }
 
-        if (!_trigger.CanSeeTarget && _agent.WolfTarget != null)
+        if (!_trigger.CanSeeTarget && _agent.WolfTarget != null && !_agent.WolfTarget.IsDead)
         {
             _stateMachine.ChangeState(KillerMode.Track);
             return;

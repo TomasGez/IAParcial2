@@ -29,7 +29,7 @@ public class StateChase : State
             return;
         }
 
-        if (!_trigger.CanSeeTarget && _agent.WolfTarget != null)
+        if (!_trigger.CanSeeTarget && _agent.WolfTarget != null && !_agent.WolfTarget.IsDead)
         {
             _stateMachine.ChangeState(KillerMode.Track);
             return;
